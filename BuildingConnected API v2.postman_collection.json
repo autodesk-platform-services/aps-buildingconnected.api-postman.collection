@@ -1,0 +1,2866 @@
+{
+	"info": {
+		"_postman_id": "79a5bdfb-d4f2-4854-89a6-4d2c2baf53e5",
+		"name": "BuildingConnected API v2",
+		"description": "BuildingConnected API covering both BuildingConnected Pro and Bid Board Pro.\n\nContact Support:\n Email: acs.winning.bidding.engineers@autodesk.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7186"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "List users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List users, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"userId\", body.results[0].id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List the user's company's users. Results are scoped to a given BuildingConnected company (invited external members on projects will not be included). "
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve a specific user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Retrieve a specific user, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/:userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "{{userId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retrieve the user object for a specific BuildingConnected user. Results are scoped to the requester's user's company."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve my user information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Retrieve my user information, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						},
+						"description": "Fetches the user object for requesting user. The Autodesk ID provided in the auothorization is mapped to a specific user in BuildingConnected. Users can only belong to a single company in BuildingConnected, and Autodesk ID can only map to one specific BuildingConnected user ID."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "projects",
+			"item": [
+				{
+					"name": "List projects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get projects collection, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"projectId\", body.results[0].id);",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/projects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								},
+								{
+									"key": "filter[currentAccLinkedProjectId]",
+									"value": "",
+									"description": "Filter to projects matching this ACC linked project ID.",
+									"disabled": true
+								},
+								{
+									"key": "searchText",
+									"value": "",
+									"description": "Search for projects whose name or number matches this text. It is case-insensitive and only matches from the start of a word.",
+									"disabled": true
+								},
+								{
+									"key": "includeClosed",
+									"value": "true",
+									"description": "Whether to include closed projects in the response. If ``true``, closed projects are included. If ``false``, they are not. The default is ``false``.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List the user's company's projects."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve one project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get one project, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:projectId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":projectId"
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "{{projectId}}",
+									"description": "(Required) The ID of the BuildingConnected project."
+								}
+							]
+						},
+						"description": "Retrieve one project."
+					},
+					"response": []
+				},
+				{
+					"name": "List a project's costs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get one project cost, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:projectId/costs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":projectId",
+								"costs"
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "{{projectId}}",
+									"description": "(Required) The ID of the BuildingConnected project."
+								}
+							]
+						},
+						"description": "List a project's costs."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "bid-packages",
+			"item": [
+				{
+					"name": "List bid packages",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List bid packages, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									"     var body = JSON.parse(responseBody);",
+									"",
+									"    pm.collectionVariables.set(\"bidPackagetId\", body.results[0].id);",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/bid-packages",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bid-packages"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								},
+								{
+									"key": "filter[projectId]",
+									"value": "",
+									"description": "Filter to objects matching this project ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List the user's company's bid packages."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve one bid package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Retrieve one bid package, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);  ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/bid-packages/:bidPackageId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bid-packages",
+								":bidPackageId"
+							],
+							"variable": [
+								{
+									"key": "bidPackageId",
+									"value": "{{bidPackagetId}}",
+									"description": "(Required) The ID of the bid package."
+								}
+							]
+						},
+						"description": "Retrieve a specific bid package."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "invites",
+			"item": [
+				{
+					"name": "List invites",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List invites, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"inviteId\", body.results[0].id);",
+									"",
+									"    //if test with certification",
+									"    var find_one_certification = body.results.find(i=>i.bidderCompany.certificates.length >0 )",
+									"",
+									"    pm.collectionVariables.set(\"inviteId\", find_one_certification.id);",
+									"    pm.collectionVariables.set(\"certificationId\", find_one_certification.bidderCompany.certificates[0].id);",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/invites",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"invites"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								},
+								{
+									"key": "filter[projectId]",
+									"value": "",
+									"description": "Filter to objects matching this project ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[bidPackageId]",
+									"value": "",
+									"description": "Filter to objects matching this bid package ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[bidderCompanyId]",
+									"value": "",
+									"description": "Filter to objects matching this bidder company ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List the invites sent by the user's company to solicit proposals."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve one invite",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Retrieve one invite, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);  ",
+									"",
+									"    var body = JSON.parse(responseBody);",
+									"",
+									"    //if test with certification",
+									"    if(body.bidderCompany.certificates.length >0 ){",
+									"",
+									"    pm.collectionVariables.set(\"inviteId\", body.id);",
+									"    pm.collectionVariables.set(\"certificationId\", body.bidderCompany.certificates[0].id);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/invites/:inviteId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"invites",
+								":inviteId"
+							],
+							"variable": [
+								{
+									"key": "inviteId",
+									"value": "{{inviteId}}",
+									"description": "(Required) The ID of the invite."
+								}
+							]
+						},
+						"description": "Retrieve a specific invite."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve a certificate file",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Retrieve a certificate file, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);  ",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/invites/:inviteId/certificates/:certificateId/file",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"invites",
+								":inviteId",
+								"certificates",
+								":certificateId",
+								"file"
+							],
+							"variable": [
+								{
+									"key": "inviteId",
+									"value": "{{inviteId}}",
+									"description": "(Required) The ID of the invite."
+								},
+								{
+									"key": "certificateId",
+									"value": "{{certificationId}}",
+									"description": "(Required) The ID of the certificate."
+								}
+							]
+						},
+						"description": "Retrieve a short-lived signed URL for downloading a certificate's file."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "bids",
+			"item": [
+				{
+					"name": "List bids",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List bids, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"bidId\", body.results[0].id);",
+									"",
+									"    //if test with attachment",
+									"     var find_one_attachment = body.results.find(i=>i.attachments.length >0 )",
+									"",
+									"    pm.collectionVariables.set(\"bidId\", find_one_attachment.id);",
+									"    pm.collectionVariables.set(\"attachmentId\", find_one_attachment.attachments[0]);",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/bids",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bids"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								},
+								{
+									"key": "filter[projectId]",
+									"value": "",
+									"description": "Filter to objects matching this project ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[bidPackageId]",
+									"value": "",
+									"description": "Filter to objects matching this bid package ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[inviteId]",
+									"value": "",
+									"description": "Filter to objects matching this invite ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[bidderCompanyId]",
+									"value": "",
+									"description": "Filter to objects matching this bidder company ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								},
+								{
+									"key": "onlyLatestRevision",
+									"value": "true",
+									"description": "Whether to only include bids that are the latest revision for an invited company. If ``true``, only the latest revisions are included. If ``false``, all revisions are included. The default is ``false``.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List bids recieved by the user's company from invited bidders."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve one bid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List one bid, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/bids/:bidId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bids",
+								":bidId"
+							],
+							"variable": [
+								{
+									"key": "bidId",
+									"value": "{{bidId}}",
+									"description": "(Required) The ID of the bid."
+								}
+							]
+						},
+						"description": "Retrieve a specific bid."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve a bid attachment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Retrieve a bid attachment, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/bids/:bidId/attachments/:attachmentId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bids",
+								":bidId",
+								"attachments",
+								":attachmentId"
+							],
+							"variable": [
+								{
+									"key": "bidId",
+									"value": "{{bidId}}",
+									"description": "(Required) The ID of the bid."
+								},
+								{
+									"key": "attachmentId",
+									"value": "{{attachmentId}}",
+									"description": "(Required) The ID of the attachment."
+								}
+							]
+						},
+						"description": "Retrieve a bid attachment."
+					},
+					"response": []
+				},
+				{
+					"name": "List a bid's line items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"lis a bid items, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/bids/:bidId/line-items",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bids",
+								":bidId",
+								"line-items"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "bidId",
+									"value": "{{bidId}}",
+									"description": "(Required) The ID of the bid."
+								}
+							]
+						},
+						"description": "List a specific bid's line items."
+					},
+					"response": []
+				},
+				{
+					"name": "List a bid's plugs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"lis a bid plugs, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/bids/:bidId/plugs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bids",
+								":bidId",
+								"plugs"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "bidId",
+									"value": "{{bidId}}",
+									"description": "(Required) The ID of the bid."
+								}
+							]
+						},
+						"description": "List a specific bid's plugs."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "opportunities",
+			"item": [
+				{
+					"name": "List opportunities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List opportunities, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"oppId\", body.results[0].id);",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/opportunities",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"opportunities"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								},
+								{
+									"key": "filter[clientCompanyId]",
+									"value": "",
+									"description": "Filter to objects matching this client company ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List the user's company's opportunities."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve one opportunity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List one opportunity, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"     ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/opportunities/:opportunityId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"opportunities",
+								":opportunityId"
+							],
+							"variable": [
+								{
+									"key": "opportunityId",
+									"value": "{{oppId}}",
+									"description": "(Required) The ID of the opportunity."
+								}
+							]
+						},
+						"description": "Retrieve a specific opportunity."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "contacts",
+			"item": [
+				{
+					"name": "List contacts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List contacts, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"contactId\", body.results[0].id);",
+									"  //if test with certification",
+									"    var find_one_certification = body.results.find(i=>i.company.certificates.length >0 )",
+									"",
+									"    pm.collectionVariables.set(\"contactId\", find_one_certification.id);",
+									"    pm.collectionVariables.set(\"certificationId\", find_one_certification.company.certificates[0].id);",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/contacts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contacts"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								},
+								{
+									"key": "filter[company.id]",
+									"value": "",
+									"description": "Filter to contacts matching this company ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								},
+								{
+									"key": "includeRemoved",
+									"value": "true",
+									"description": "Whether to include removed contacts in the response. If ``true``, removed contacts are included. If ``false``, they are not. The default is ``false``.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List the user's company's contacts. Contacts represent the relationship between a user's company and an invited bidder's office (not the bidder's company). These relationships are only updated once per 24 hour period and are not meant to be used for real time reporting."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve one contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Retrieve one contact, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/contacts/:contactId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contacts",
+								":contactId"
+							],
+							"variable": [
+								{
+									"key": "contactId",
+									"value": "{{contactId}}",
+									"description": "(Required) The ID of the contact."
+								}
+							]
+						},
+						"description": "Retrieve a specific contact."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve a certificate file",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Retrieve a certificate file, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/contacts/:contactId/certificates/:certificateId/file",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contacts",
+								":contactId",
+								"certificates",
+								":certificateId",
+								"file"
+							],
+							"variable": [
+								{
+									"key": "contactId",
+									"value": "{{contactId}}",
+									"description": "(Required) The ID of the contact."
+								},
+								{
+									"key": "certificateId",
+									"value": "{{certificationId}}",
+									"description": "(Required) The ID of the certificate."
+								}
+							]
+						},
+						"description": "Retrieve a short-lived signed URL for downloading a certificate's file."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "project-bid-forms",
+			"item": [
+				{
+					"name": "List project bid forms",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List project bid forms, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"bidFormId\", body.results[0].id);",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/project-bid-forms",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"project-bid-forms"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								},
+								{
+									"key": "filter[projectId]",
+									"value": "",
+									"description": "Filter to objects matching this project ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List the user's company's project bid forms."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve one project bid form",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Retrieve one project bid form, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/project-bid-forms/:formId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"project-bid-forms",
+								":formId"
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{bidFormId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retrieve a specific project bid form."
+					},
+					"response": []
+				},
+				{
+					"name": "List a project bid form's line items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List a project bid form's line items, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/project-bid-forms/:formId/line-items",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"project-bid-forms",
+								":formId",
+								"line-items"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{bidFormId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "List a specific project bid form's line items."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "scope-specific-bid-forms",
+			"item": [
+				{
+					"name": "List scope-specific bid forms",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List scope-specific bid forms, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"bidSpecificFormId\", body.results[0].id);",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/scope-specific-bid-forms",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scope-specific-bid-forms"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								},
+								{
+									"key": "filter[projectId]",
+									"value": "",
+									"description": "Filter to objects matching this project ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[bidPackageId]",
+									"value": "",
+									"description": "Filter to objects matching this bid package ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List the user's company's scope-specific bid forms. The term \"scope-specific\" is displayed in the BuildingConnected applications and refers specifically to a given bid package (e.g., the \"Concrete\" bid package may have it's own scope-specific bid package)."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve one scope-specific bid form",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Retrieve one scope-specific bid form, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/scope-specific-bid-forms/:formId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scope-specific-bid-forms",
+								":formId"
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{bidSpecificFormId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retrieve a specific scope-specific bid form."
+					},
+					"response": []
+				},
+				{
+					"name": "List a scope-specific bid form's line items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List a scope-specific bid form's line items, Status code is 200\", function (){",
+									"    pm.response.to.have.status(200); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/scope-specific-bid-forms/:formId/line-items",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scope-specific-bid-forms",
+								":formId",
+								"line-items"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{bidSpecificFormId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "List a specific scope-specific bid form's line items."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tutorials",
+			"item": [
+				{
+					"name": "Create an ETL Process for BuildingConnected",
+					"item": [
+						{
+							"name": "Step 1: Retrieve BuildingConnected Projects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 1: Retrieve BuildingConnected Projects, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"",
+											"     var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"projectId\", body.results[0].id);",
+											"",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/projects?searchText=Brian",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									],
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										},
+										{
+											"key": "filter[currentAccLinkedProjectId]",
+											"value": "",
+											"description": "Filter to projects matching this ACC linked project ID.",
+											"disabled": true
+										},
+										{
+											"key": "searchText",
+											"value": "",
+											"description": "Search for projects whose name or number matches this text. It is case-insensitive and only matches from the start of a word.",
+											"disabled": true
+										},
+										{
+											"key": "includeClosed",
+											"value": "true",
+											"description": "Whether to include closed projects in the response. If ``true``, closed projects are included. If ``false``, they are not. The default is ``false``.",
+											"disabled": true
+										},
+										{
+											"key": "searchText",
+											"value": "Brian"
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 2: Retrieve Bid Packages",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 2: Retrieve Bid Packages, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bid-packages?filter[projectId]={{projectId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bid-packages"
+									],
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										},
+										{
+											"key": "filter[currentAccLinkedProjectId]",
+											"value": "",
+											"description": "Filter to projects matching this ACC linked project ID.",
+											"disabled": true
+										},
+										{
+											"key": "searchText",
+											"value": "",
+											"description": "Search for projects whose name or number matches this text. It is case-insensitive and only matches from the start of a word.",
+											"disabled": true
+										},
+										{
+											"key": "includeClosed",
+											"value": "true",
+											"description": "Whether to include closed projects in the response. If ``true``, closed projects are included. If ``false``, they are not. The default is ``false``.",
+											"disabled": true
+										},
+										{
+											"key": "filter[projectId]",
+											"value": "{{projectId}}"
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 3: Retrieve Invites",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 3: Retrieve Invites, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/invites?filter[projectId]={{projectId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"invites"
+									],
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										},
+										{
+											"key": "filter[currentAccLinkedProjectId]",
+											"value": "",
+											"description": "Filter to projects matching this ACC linked project ID.",
+											"disabled": true
+										},
+										{
+											"key": "searchText",
+											"value": "",
+											"description": "Search for projects whose name or number matches this text. It is case-insensitive and only matches from the start of a word.",
+											"disabled": true
+										},
+										{
+											"key": "includeClosed",
+											"value": "true",
+											"description": "Whether to include closed projects in the response. If ``true``, closed projects are included. If ``false``, they are not. The default is ``false``.",
+											"disabled": true
+										},
+										{
+											"key": "filter[projectId]",
+											"value": "{{projectId}}"
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 4: Retrieve Bids",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 4: Retrieve Bids, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bids?filter[projectId]={{projectId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bids"
+									],
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										},
+										{
+											"key": "filter[currentAccLinkedProjectId]",
+											"value": "",
+											"description": "Filter to projects matching this ACC linked project ID.",
+											"disabled": true
+										},
+										{
+											"key": "searchText",
+											"value": "",
+											"description": "Search for projects whose name or number matches this text. It is case-insensitive and only matches from the start of a word.",
+											"disabled": true
+										},
+										{
+											"key": "includeClosed",
+											"value": "true",
+											"description": "Whether to include closed projects in the response. If ``true``, closed projects are included. If ``false``, they are not. The default is ``false``.",
+											"disabled": true
+										},
+										{
+											"key": "filter[projectId]",
+											"value": "{{projectId}}"
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 5: Periodically Check for Updates(NOT Scrips Test）",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 5: Retrieve Bids, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "On a periodic basis, perform the preceding steps using the query parameter filter filter[updatedAt]={Previous fetch time} to check for updates since the previous time you used that endpoint.",
+									"host": [
+										"On a periodic basis, perform the preceding steps using the query parameter filter filter[updatedAt]={Previous fetch time} to check for updates since the previous time you used that endpoint",
+										""
+									],
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										},
+										{
+											"key": "filter[currentAccLinkedProjectId]",
+											"value": "",
+											"description": "Filter to projects matching this ACC linked project ID.",
+											"disabled": true
+										},
+										{
+											"key": "searchText",
+											"value": "",
+											"description": "Search for projects whose name or number matches this text. It is case-insensitive and only matches from the start of a word.",
+											"disabled": true
+										},
+										{
+											"key": "includeClosed",
+											"value": "true",
+											"description": "Whether to include closed projects in the response. If ``true``, closed projects are included. If ``false``, they are not. The default is ``false``.",
+											"disabled": true
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Sync Bid Board with Your CRM",
+					"item": [
+						{
+							"name": "Step 1: Retrieve Selected Opportunities",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 1: Retrieve Selected Opportunities, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"oppId\", body.results[0].id);",
+											" ",
+											"});",
+											"  "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/opportunities",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"opportunities"
+									],
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[clientCompanyId]",
+											"value": "",
+											"description": "Filter to objects matching this client company ID.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										}
+									]
+								},
+								"description": "List the user's company's opportunities."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 2: Identify Clients (NOT Scrips Test）",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"List opportunities, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"oppId\", body.results[0].id);",
+											" ",
+											"});",
+											"  "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "We include BuildingConnected’s representation of a unique company ID in the response (client.company.id). This is not equivalent to other representations of company IDs found elsewhere in ACC APIs. We recommend using your BuildingConnected company ID.",
+									"host": [
+										"We include BuildingConnected’s representation of a unique company ID in the response (client",
+										"company",
+										"id)",
+										" This is not equivalent to other representations of company IDs found elsewhere in ACC APIs",
+										" We recommend using your BuildingConnected company ID",
+										""
+									],
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[client.company.id]",
+											"value": "",
+											"description": "Filter to objects matching this client company ID.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										}
+									]
+								},
+								"description": "List the user's company's opportunities."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 3: Manage Groups(NOT Scrips Test）",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"List opportunities, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"oppId\", body.results[0].id);",
+											" ",
+											"});",
+											"  "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "Opportunities can be grouped together. We recommend that opportunities are grouped when there are multiple potential clients bidding on the same project. Opportunities are grouped under “parent” opportunities, which are highly similar to other opportunities in most respects.",
+									"host": [
+										"Opportunities can be grouped together",
+										" We recommend that opportunities are grouped when there are multiple potential clients bidding on the same project",
+										" Opportunities are grouped under “parent” opportunities, which are highly similar to other opportunities in most respects",
+										""
+									],
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[client.company.id]",
+											"value": "",
+											"description": "Filter to objects matching this client company ID.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										}
+									]
+								},
+								"description": "List the user's company's opportunities."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 4: Create Navigation Links (NOT Scrips Test）",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"List opportunities, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"oppId\", body.results[0].id);",
+											" ",
+											"});",
+											"  "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "An opportunity can easily be opened in Bid Board using its opportunity ID. If you want to expose an easy way to navigate to an opportunity in your CRM or ERP system (or open the page in an iframe), use the following URL format: https://app.buildingconnected.com/opportunities/{opportunityId}/info where {opportunityId} is equivalent to the id field in opportunity objects that are retrieved using GET opportunities.",
+									"protocol": "An opportunity can easily be opened in Bid Board using its opportunity ID. If you want to expose an easy way to navigate to an opportunity in your CRM or ERP system (or open the page in an iframe), use the following URL format: https",
+									"host": [
+										"app",
+										"buildingconnected",
+										"com"
+									],
+									"path": [
+										"opportunities",
+										"{opportunityId}",
+										"info where {opportunityId} is equivalent to the id field in opportunity objects that are retrieved using GET opportunities."
+									],
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[client.company.id]",
+											"value": "",
+											"description": "Filter to objects matching this client company ID.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										}
+									]
+								},
+								"description": "List the user's company's opportunities."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Export a Project to Your Estimating Tool",
+					"item": [
+						{
+							"name": "Step 1: Identify and Retrieve the Relevant Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 1: Identify and Retrieve the Relevant Project, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"",
+											"     var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"projectId\", body.results[0].id);",
+											"",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/projects?searchText=Brian",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									],
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										},
+										{
+											"key": "filter[currentAccLinkedProjectId]",
+											"value": "",
+											"description": "Filter to projects matching this ACC linked project ID.",
+											"disabled": true
+										},
+										{
+											"key": "searchText",
+											"value": "",
+											"description": "Search for projects whose name or number matches this text. It is case-insensitive and only matches from the start of a word.",
+											"disabled": true
+										},
+										{
+											"key": "includeClosed",
+											"value": "true",
+											"description": "Whether to include closed projects in the response. If ``true``, closed projects are included. If ``false``, they are not. The default is ``false``.",
+											"disabled": true
+										},
+										{
+											"key": "searchText",
+											"value": "Brian"
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 2: Use Bid Forms to List Scope Questions (Optional)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 2: Use Bid Forms to List Scope Questions (Optional), Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/scope-specific-bid-forms?filter[projectId]={{projectId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"scope-specific-bid-forms"
+									],
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										},
+										{
+											"key": "filter[currentAccLinkedProjectId]",
+											"value": "",
+											"description": "Filter to projects matching this ACC linked project ID.",
+											"disabled": true
+										},
+										{
+											"key": "searchText",
+											"value": "",
+											"description": "Search for projects whose name or number matches this text. It is case-insensitive and only matches from the start of a word.",
+											"disabled": true
+										},
+										{
+											"key": "includeClosed",
+											"value": "true",
+											"description": "Whether to include closed projects in the response. If ``true``, closed projects are included. If ``false``, they are not. The default is ``false``.",
+											"disabled": true
+										},
+										{
+											"key": "filter[projectId]",
+											"value": "{{projectId}}"
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 3: Retrieve Bid Packages",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 3: Retrieve Bid Packages, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bid-packages?filter[projectId]={{projectId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bid-packages"
+									],
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										},
+										{
+											"key": "filter[currentAccLinkedProjectId]",
+											"value": "",
+											"description": "Filter to projects matching this ACC linked project ID.",
+											"disabled": true
+										},
+										{
+											"key": "searchText",
+											"value": "",
+											"description": "Search for projects whose name or number matches this text. It is case-insensitive and only matches from the start of a word.",
+											"disabled": true
+										},
+										{
+											"key": "includeClosed",
+											"value": "true",
+											"description": "Whether to include closed projects in the response. If ``true``, closed projects are included. If ``false``, they are not. The default is ``false``.",
+											"disabled": true
+										},
+										{
+											"key": "filter[projectId]",
+											"value": "{{projectId}}"
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 4: Retrieve Invites",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 4: Retrieve Invites, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/invites?filter[projectId]={{projectId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"invites"
+									],
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										},
+										{
+											"key": "filter[currentAccLinkedProjectId]",
+											"value": "",
+											"description": "Filter to projects matching this ACC linked project ID.",
+											"disabled": true
+										},
+										{
+											"key": "searchText",
+											"value": "",
+											"description": "Search for projects whose name or number matches this text. It is case-insensitive and only matches from the start of a word.",
+											"disabled": true
+										},
+										{
+											"key": "includeClosed",
+											"value": "true",
+											"description": "Whether to include closed projects in the response. If ``true``, closed projects are included. If ``false``, they are not. The default is ``false``.",
+											"disabled": true
+										},
+										{
+											"key": "filter[projectId]",
+											"value": "{{projectId}}"
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 5: Retrieve Bids",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 5: Retrieve Bids, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bids?filter[projectId]={{projectId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bids"
+									],
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										},
+										{
+											"key": "filter[currentAccLinkedProjectId]",
+											"value": "",
+											"description": "Filter to projects matching this ACC linked project ID.",
+											"disabled": true
+										},
+										{
+											"key": "searchText",
+											"value": "",
+											"description": "Search for projects whose name or number matches this text. It is case-insensitive and only matches from the start of a word.",
+											"disabled": true
+										},
+										{
+											"key": "includeClosed",
+											"value": "true",
+											"description": "Whether to include closed projects in the response. If ``true``, closed projects are included. If ``false``, they are not. The default is ``false``.",
+											"disabled": true
+										},
+										{
+											"key": "filter[projectId]",
+											"value": "{{projectId}}"
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 6: Map Objects (NOT Scripts Test)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 5: Retrieve Bids, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "Each project has a subset of bid packages; each bid package has a subset of invites; each invite has a subset of bids. Bids have all relevant ids: projectId, bidPackageId, and inviteId; invites have a bidPackageId and projectId field; and bid packages have a projectId field. Use these unique IDs to accurately map objects correctly according to the following wireframe.",
+									"host": [
+										"Each project has a subset of bid packages; each bid package has a subset of invites; each invite has a subset of bids",
+										" Bids have all relevant ids"
+									],
+									"port": " projectId, bidPackageId, and inviteId; invites have a bidPackageId and projectId field; and bid packages have a projectId field. Use these unique IDs to accurately map objects correctly according to the following wireframe.",
+									"query": [
+										{
+											"key": "cursorState",
+											"value": "",
+											"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "",
+											"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+											"disabled": true
+										},
+										{
+											"key": "filter[updatedAt]",
+											"value": "",
+											"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+											"disabled": true
+										},
+										{
+											"key": "filter[currentAccLinkedProjectId]",
+											"value": "",
+											"description": "Filter to projects matching this ACC linked project ID.",
+											"disabled": true
+										},
+										{
+											"key": "searchText",
+											"value": "",
+											"description": "Search for projects whose name or number matches this text. It is case-insensitive and only matches from the start of a word.",
+											"disabled": true
+										},
+										{
+											"key": "includeClosed",
+											"value": "true",
+											"description": "Whether to include closed projects in the response. If ``true``, closed projects are included. If ``false``, they are not. The default is ``false``.",
+											"disabled": true
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "scope",
+				"value": "data:write data:read",
+				"type": "string"
+			},
+			{
+				"key": "redirect_uri",
+				"value": "{{callbackUrl}}",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "Autodesk API Token",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "{{clientSecret}}",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{clientId}}",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "{{authUrl}}/token",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "{{authUrl}}/authorize",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "authorization_code",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://developer.api.autodesk.com/construction/buildingconnected/v2",
+			"type": "string"
+		},
+		{
+			"key": "clientId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "clientSecret",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "authUrl",
+			"value": "https://developer.api.autodesk.com/authentication/v2",
+			"type": "string"
+		},
+		{
+			"key": "callbackUrl",
+			"value": "https://www.getpostman.com/oauth2/callback",
+			"type": "string"
+		}
+	]
+}
