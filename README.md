@@ -11,7 +11,7 @@
 
 
 ## Description
-This folder contains a Postman Collection that includes all the endpoints of current BuildingConnected API and the demo tutorials. The collection will be kept updated with new APIs. 
+This folder contains a Postman Collection that includes all the endpoints of current BuildingConnected API and the demo tutorials. The collection will keep updating with new APIs or API changes.
 
 
 ### Setup Postman environment
@@ -35,6 +35,9 @@ This folder contains a Postman Collection that includes all the endpoints of cur
 
 3. To test tutorial. Run the steps. Some steps are not scripts. They are notes on what might be proceeded after you get the data from previous steps. 
  
+4. Some pre-set parameters may come from previous scripts. When the call fails, check the response error message if it indicates the parameters are invalid or not.
+
+5. It is tricky to work with project bid form items and scope-specific bid form items. It is better to check the required items and their schema firstly when you want to create or update them.
 
 ### Documentation
 

@@ -1,28 +1,29 @@
 {
 	"info": {
-		"_postman_id": "79a5bdfb-d4f2-4854-89a6-4d2c2baf53e5",
-		"name": "BuildingConnected API v2",
+		"_postman_id": "ebcd58a0-5b0f-48e6-a0be-f76da57c8d43",
+		"name": "BuildingConnected API Production-Final",
 		"description": "BuildingConnected API covering both BuildingConnected Pro and Bid Board Pro.\n\nContact Support:\n Email: acs.winning.bidding.engineers@autodesk.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "7186"
+		"_exporter_id": "1440859"
 	},
 	"item": [
 		{
-			"name": "users",
+			"name": "Project Team Member",
 			"item": [
 				{
-					"name": "List users",
+					"name": "List all projects members",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"List users, Status code is 200\", function () {",
+									"pm.test(\"List All Projects Members, Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"    var body = JSON.parse(responseBody);",
-									"    pm.collectionVariables.set(\"userId\", body.results[0].id);",
+									"    pm.collectionVariables.set(\"memberId\", body.results[0].id);",
+									" ",
 									"});",
-									""
+									"  "
 								],
 								"type": "text/javascript"
 							}
@@ -37,12 +38,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/users",
+							"raw": "{{baseUrl}}/project-team-members",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"users"
+								"",
+								"project-team-members"
 							],
 							"query": [
 								{
@@ -56,25 +58,43 @@
 									"value": "",
 									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
 									"disabled": true
+								},
+								{
+									"key": "filter[projectId]",
+									"value": "{{projectId}}",
+									"description": "Filter to objects matching this bidder company ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								},
+								{
+									"key": "filter[userId]",
+									"value": "{{userId}}",
+									"disabled": true
 								}
 							]
 						},
-						"description": "List the user's company's users. Results are scoped to a given BuildingConnected company (invited external members on projects will not be included). "
+						"description": "List the invites sent by the user's company to solicit proposals."
 					},
 					"response": []
 				},
 				{
-					"name": "Retrieve a specific user",
+					"name": "Get one project member",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Retrieve a specific user, Status code is 200\", function () {",
+									"pm.test(\"Get One Project Member, Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"    ",
+									"    var body = JSON.parse(responseBody); ",
+									" ",
 									"});",
-									""
+									"  "
 								],
 								"type": "text/javascript"
 							}
@@ -89,45 +109,150 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/users/:userId",
+							"raw": "{{baseUrl}}//project-team-members/:memberId",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"users",
-								":userId"
+								"",
+								"project-team-members",
+								":memberId"
 							],
 							"variable": [
 								{
-									"key": "userId",
-									"value": "{{userId}}",
-									"description": "(Required) "
+									"key": "memberId",
+									"value": "{{memberId}}"
 								}
 							]
 						},
-						"description": "Retrieve the user object for a specific BuildingConnected user. Results are scoped to the requester's user's company."
+						"description": "List the invites sent by the user's company to solicit proposals."
 					},
 					"response": []
 				},
 				{
-					"name": "Retrieve my user information",
+					"name": "Modify one project member",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Retrieve my user information, Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"    ",
+									"pm.test(\"Modify one project-team-member, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									"",
 									"});",
-									""
+									"  "
 								],
 								"type": "text/javascript"
 							}
 						}
 					],
 					"request": {
-						"method": "GET",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"privileges\":\"ADMIN\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}//project-team-members/:memberId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"",
+								"project-team-members",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "memberId",
+									"value": "{{memberId}}"
+								}
+							]
+						},
+						"description": "List the invites sent by the user's company to solicit proposals."
+					},
+					"response": []
+				},
+				{
+					"name": "Create project member",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create One Project Member, Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    var body = JSON.parse(responseBody); ",
+									"    pm.collectionVariables.set(\"memberId\", body.id);",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\":{\n        \"id\":\"59cb14df0642dc00127ddcf3\"\n    },\n    \"projectId\":\"{{projectId}}\" \n \n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}//project-team-members",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"",
+								"project-team-members"
+							]
+						},
+						"description": "List the invites sent by the user's company to solicit proposals."
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE project team members",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Delete One Project Member, Status code is 204\", function () {",
+									"    pm.response.to.have.status(204); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Accept",
@@ -135,16 +260,23 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/users/me",
+							"raw": "{{baseUrl}}//project-team-members/:memberId",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"users",
-								"me"
+								"",
+								"project-team-members",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "memberId",
+									"value": "{{memberId}}"
+								}
 							]
 						},
-						"description": "Fetches the user object for requesting user. The Autodesk ID provided in the auothorization is mapped to a specific user in BuildingConnected. Users can only belong to a single company in BuildingConnected, and Autodesk ID can only map to one specific BuildingConnected user ID."
+						"description": "List the invites sent by the user's company to solicit proposals."
 					},
 					"response": []
 				}
@@ -231,6 +363,296 @@
 					"response": []
 				},
 				{
+					"name": "Create project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create project, Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"projectId\", body.id);",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\": \"Office Renovation\",\n        \"number\": \"12345\",\n        \"client\": \"Wells Fargo\",\n        \"value\": 1000000,\n        \"notes\": \"<div>This project's <b>important</b> notes.</div>\",\n        \"projectSize\": 32000,\n        \"projectSizeUnits\": \"SQUARE_FEET\",\n        \"isBiddingSealed\": false,\n        \"owningOfficeId\": \"{{officeId}}\",\n        \"isPublic\": true,\n        \"bidsDueAt\": \"2024-09-22T16:27:37.437Z\",\n        \"endsAt\": \"2024-09-22T16:27:37.437Z\",\n        \"rfisDueAt\": \"2024-09-22T16:27:37.437Z\",\n        \"startsAt\": \"2024-09-22T16:27:37.437Z\",\n        \"jobWalkAt\": \"2024-09-22T16:27:37.437Z\",\n        \"dueAt\": \"2024-09-22T16:27:37.437Z\",\n        \"location\": {\n          \"country\": \"US\",\n          \"state\": \"CA\",\n          \"streetName\": \"California St.\",\n          \"streetNumber\": \"600\",\n          \"suite\": \"6th Floor\",\n          \"city\": \"San Francisco\",\n          \"zip\": \"94108\"\n        },\n        \"accountManager\": \"Name of account manager\",\n        \"feePercentage\": 15.55,\n        \"marketSector\": \"Sports Stadium Construction\",\n        \"defaultCurrency\": \"USD\",\n        \"architect\": \"Browning Day Mullins Dierdorf Architects\",\n        \"isForBudgeting\": false,\n        \"isCompetitive\": false\n      }"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects"
+							]
+						},
+						"description": "List the user's company's projects."
+					},
+					"response": []
+				},
+				{
+					"name": "Create project with template",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create project with template, Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"projectId\", body.id);",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\": \"Office Renovation with template\",\n        \"number\": \"12345\",\n        \"client\": \"Wells Fargo\",\n        \"value\": 1000000,\n        \"notes\": \"<div>This project's <b>important</b> notes.</div>\",\n        \"projectSize\": 32000,\n        \"projectSizeUnits\": \"SQUARE_FEET\",\n        \"isBiddingSealed\": false,\n        \"owningOfficeId\": \"{{officeId}}\",\n        \"isPublic\": true,\n        \"bidsDueAt\": \"2024-09-22T16:27:37.437Z\",\n        \"endsAt\": \"2024-09-22T16:27:37.437Z\",\n        \"rfisDueAt\": \"2024-09-22T16:27:37.437Z\",\n        \"startsAt\": \"2024-09-22T16:27:37.437Z\",\n        \"jobWalkAt\": \"2024-09-22T16:27:37.437Z\",\n        \"dueAt\": \"2024-09-22T16:27:37.437Z\",\n        \"location\": {\n          \"country\": \"US\",\n          \"state\": \"CA\",\n          \"streetName\": \"California St.\",\n          \"streetNumber\": \"600\",\n          \"suite\": \"6th Floor\",\n          \"city\": \"San Francisco\",\n          \"zip\": \"94108\"\n        },\n        \"accountManager\": \"Name of account manager\",\n        \"feePercentage\": 15.55,\n        \"marketSector\": \"Sports Stadium Construction\",\n        \"defaultCurrency\": \"USD\",\n        \"architect\": \"Browning Day Mullins Dierdorf Architects\",\n        \"isForBudgeting\": false,\n        \"isCompetitive\": false, \n        \"originalProjectId\": \"{{templateProjectId}}\",\n         \"template\": {\n          \"includeInfo\": false,\n          \"includeCosts\": false,\n          \"includeForm\": true,\n          \"includeFiles\": false,\n          \"bidPackages\": {\n            \"includeForm\": true,\n            \"includeFiles\": false,\n            \"bidderStates\": [\n              \"NOT_BIDDING\",\n              \"BIDDING\",\n              \"BID_SUBMITTED\"\n            ]\n          }\n        }\n      }"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects"
+							]
+						},
+						"description": "List the user's company's projects."
+					},
+					"response": []
+				},
+				{
+					"name": "Create project with Opp",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create project with Opp, Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"projectId\", body.id);",
+									"});",
+									"  "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Linked Project with opp\",\n  \"opportunityProjectPair\": {\n      \"opportunityId\": \"{{oppId}}\",\n      \"includeClientFiles\": true\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects"
+							]
+						},
+						"description": "List the user's company's projects."
+					},
+					"response": []
+				},
+				{
+					"name": "Create project with ACC",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create project with ACC, Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"projectId\", body.id);",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"xiaodong test by creating API with ACC\",\n     \"currentAccLinkedHubId\": \"489c5e7a-c6c0-4212-81f3-3529a621210b\",\n     \"currentAccLinkedProjectId\": \"854c194f-05b3-4117-b926-69fa36c33c0c\" \n\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects"
+							]
+						},
+						"description": "List the user's company's projects."
+					},
+					"response": []
+				},
+				{
+					"name": "Modify Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Patch project, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\": \"Office Renovation - Update\",\n        \"number\": \"12345789\",\n        \"client\": \"Wells Fargo\",\n        \"value\": 1000000,\n        \"notes\": \"<div>This project's <b>important</b> notes.</div>\",\n        \"projectSize\": 32000,\n        \"projectSizeUnits\": \"SQUARE_FEET\",\n        \"isBiddingSealed\": false,\n        \"owningOfficeId\": \"{{officeId}}\",\n        \"isPublic\": true,\n        \"bidsDueAt\": \"2024-09-22T16:27:37.437Z\",\n        \"endsAt\": \"2024-09-22T16:27:37.437Z\",\n        \"rfisDueAt\": \"2024-09-22T16:27:37.437Z\",\n        \"startsAt\": \"2024-09-22T16:27:37.437Z\",\n        \"jobWalkAt\": \"2024-09-22T16:27:37.437Z\",\n        \"dueAt\": \"2024-09-22T16:27:37.437Z\",\n        \"location\": {\n          \"country\": \"US\",\n          \"state\": \"CA\",\n          \"streetName\": \"California St.\",\n          \"streetNumber\": \"600\",\n          \"suite\": \"6th Floor\",\n          \"city\": \"San Francisco\",\n          \"zip\": \"94108\"\n        },\n        \"accountManager\": \"Name of account manager\",\n        \"feePercentage\": 16.55,\n        \"marketSector\": \"Sports Stadium Construction\",\n        \"defaultCurrency\": \"USD\",\n        \"architect\": \"Browning Day Mullins Dierdorf Architects\",\n        \"isForBudgeting\": false,\n        \"isCompetitive\": false\n      }"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects/:projectId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":projectId"
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "{{projectId}}"
+								}
+							]
+						},
+						"description": "List the user's company's projects."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Delete project, Status code is 204\", function () {",
+									"    pm.response.to.have.status(204); ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:projectId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":projectId"
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "{{projectId}}"
+								}
+							]
+						},
+						"description": "List the user's company's projects."
+					},
+					"response": []
+				},
+				{
 					"name": "Retrieve one project",
 					"event": [
 						{
@@ -276,14 +698,18 @@
 					"response": []
 				},
 				{
-					"name": "List a project's costs",
+					"name": "List a project costs",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"pm.test(\"Get one project cost, Status code is 200\", function () {",
-									"    pm.response.to.have.status(200); ",
+									"    pm.response.to.have.status(200);  ",
+									"",
+									"     var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"costId\", body.results[0].id);",
+									"",
 									"});",
 									"  "
 								],
@@ -318,6 +744,338 @@
 							]
 						},
 						"description": "List a project's costs."
+					},
+					"response": []
+				},
+				{
+					"name": "Create project cost",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get one project cost, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);  ",
+									"",
+									"     var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"costId\", body.results.id); ",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n    {\n        \"section\":\"mynewsection\",\n        \"code\":\"123\",\n        \"name\": \"myname\",\n            \"calculationType\": \"LUMP_SUM\",\n            \"calculation\": {\n                \"amount\": 300000\n            }\n    }\n"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects/:projectId/costs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":projectId",
+								"costs"
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "{{projectId}}"
+								}
+							]
+						},
+						"description": "List the user's company's projects."
+					},
+					"response": []
+				},
+				{
+					"name": "Batch create project costs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Batch Create project costs, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);  ",
+									"",
+									"     var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"costId\", body.results[0].id);",
+									"",
+									"    pm.collectionVariables.set(\"costId1\", body.results[0].id);",
+									"    pm.collectionVariables.set(\"costId2\", body.results[1].id);",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n  [\n   {\n        \"section\":\"mynewsection\",\n        \"code\":\"123\",\n        \"name\": \"myname\",\n            \"calculationType\": \"LUMP_SUM\",\n            \"calculation\": {\n                \"amount\": 300000\n            }\n    },\n\n    {\n        \"section\":\"mynewsection\",\n        \"code\":\"123\",\n        \"name\": \"myname\",\n            \"calculationType\": \"LUMP_SUM\",\n            \"calculation\": {\n                \"amount\": 300000\n            }\n    },\n    {\n      \"section\": \"Insurance\",\n      \"code\": \"1234\",\n      \"name\": \"Insurance Cost\",\n      \"calculationType\": \"LUMP_SUM\",\n      \"calculation\": {\n        \"amount\": 1000\n      }\n    }\n\n  ]\n"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects/:projectId/costs:batch-create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":projectId",
+								"costs:batch-create"
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "{{projectId}}"
+								}
+							]
+						},
+						"description": "List the user's company's projects."
+					},
+					"response": []
+				},
+				{
+					"name": "Batch modify project costs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Batch Modify project costs, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);  ",
+									" ",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"{{costId}}\": {\n        \"section\":\"mynewsection-1\",\n        \"code\":\"1234\",\n        \"name\": \"myname\",\n            \"calculationType\": \"LUMP_SUM\",\n            \"calculation\": {\n                \"amount\": 300000\n            }\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects/:projectId/costs:batch-patch",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":projectId",
+								"costs:batch-patch"
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "{{projectId}}"
+								}
+							]
+						},
+						"description": "List the user's company's projects."
+					},
+					"response": []
+				},
+				{
+					"name": "Batch delete project costs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Batch Delete project costs, Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);  ",
+									" ",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    \"{{costId1}}\",\n    \"{{costId2}}\"\n\n]"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects/:projectId/costs:batch-delete",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":projectId",
+								"costs:batch-delete"
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "{{projectId}}"
+								}
+							]
+						},
+						"description": "List the user's company's projects."
+					},
+					"response": []
+				},
+				{
+					"name": "Modify project cost",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Modify project cost, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);  ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n    {\n        \"section\":\"mynewsection\",\n        \"code\":\"123\",\n        \"name\": \"myname\",\n            \"calculationType\": \"LUMP_SUM\",\n            \"calculation\": {\n                \"amount\": 300000\n            }\n    }\n"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects/:projectId/costs/:costId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":projectId",
+								"costs",
+								":costId"
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "{{projectId}}"
+								},
+								{
+									"key": "costId",
+									"value": "{{costId}}"
+								}
+							]
+						},
+						"description": "List the user's company's projects."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete projects Cost",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\" Delete project cost, Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);  ",
+									" ",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:projectId/costs/:costId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":projectId",
+								"costs",
+								":costId"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "{{projectId}}"
+								},
+								{
+									"key": "costId",
+									"value": "{{costId}}"
+								}
+							]
+						},
+						"description": "List the user's company's projects."
 					},
 					"response": []
 				}
@@ -376,7 +1134,7 @@
 								},
 								{
 									"key": "filter[projectId]",
-									"value": "",
+									"value": "{{projectId}}",
 									"description": "Filter to objects matching this project ID.",
 									"disabled": true
 								},
@@ -385,7 +1143,211 @@
 									"value": "",
 									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
 									"disabled": true
+								},
+								{
+									"key": "filter[currentAccLinkedProjectId]",
+									"value": null,
+									"disabled": true
 								}
+							]
+						},
+						"description": "List the user's company's bid packages."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Bid Package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create Bid Package, Status code is 201\", function () {",
+									"    pm.response.to.have.status(201); ",
+									"     var body = JSON.parse(responseBody);",
+									"",
+									"    pm.collectionVariables.set(\"bidPackageId\", body.id);",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"projectId\": \"{{projectId}}\",\n    \"name\": \"Concrete\",\n        \"number\": \"03\",\n        \"keywords\": [\n          \"Concrete\"\n        ],\n        \"leadUserId\": \"{{userId}}\",\n        \"estimatedCost\": 100000,\n        \"instructions\": \"Instruction about bid\",\n        \"bidsDueAt\": \"2024-09-25T19:00:00.000Z\",\n        \"endsAt\": \"2024-09-25T19:00:00.000Z\",\n        \"rfisDueAt\": \"2024-09-25T19:00:00.000Z\",\n        \"startsAt\": \"2024-09-25T19:00:00.000Z\",\n        \"jobWalkAt\": \"2024-09-25T19:00:00.000Z\" \n}\n"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bid-packages",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bid-packages"
+							]
+						},
+						"description": "List the user's company's bid packages."
+					},
+					"response": []
+				},
+				{
+					"name": "Batch Create Bid Packages",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Batch Create Bid Packages, Status code is 201\", function () {",
+									"    pm.response.to.have.status(201); ",
+									"     var body = JSON.parse(responseBody);",
+									"",
+									"    pm.collectionVariables.set(\"bidPackagetId\", body.results[0].id);",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n        {\n          \"projectId\": \"{{projectId}}\",\n          \"name\": \"Concrete - package 1\",\n          \"number\": \"03\",\n          \"keywords\": [\n            \"Concrete\"\n          ],\n          \"leadUserId\": \"{{userId}}\",\n          \"estimatedCost\": 100000,\n          \"instructions\": \"Instruction about bid\",\n          \"bidsDueAt\": \"2024-09-25T19:00:00.000Z\", \n    \n          \"template\": {\n            \"bidPackageId\": \"{{bidPackagetId}}\",\n            \"includeForm\": true,\n            \"includeFiles\": false,\n            \"bidderStates\": [\n              \"UNDECIDED\",\n              \"NOT_BIDDING\",\n              \"BIDDING\",\n              \"BID_SUBMITTED\",\n              \"NOT_INVITED\"\n            ]\n          }\n        },\n\n         {\n          \"projectId\": \"{{projectId}}\",\n          \"name\": \"Concrete pachage 2\",\n          \"number\": \"03\",\n          \"keywords\": [\n            \"Concrete\"\n          ],\n          \"leadUserId\": \"{{userId}}\",\n          \"estimatedCost\": 100000,\n          \"instructions\": \"Instruction about bid\",\n          \"bidsDueAt\": \"2024-09-25T19:00:00.000Z\",\n        \n          \"template\": {\n            \"bidPackageId\": \"{{bidPackagetId}}\",\n            \"includeForm\": true,\n            \"includeFiles\": false,\n            \"bidderStates\": [\n              \"UNDECIDED\",\n              \"NOT_BIDDING\",\n              \"BIDDING\",\n              \"BID_SUBMITTED\",\n              \"NOT_INVITED\"\n            ]\n          }\n        }\n\n      ]"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bid-packages:batch-create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bid-packages:batch-create"
+							]
+						},
+						"description": "List the user's company's bid packages."
+					},
+					"response": []
+				},
+				{
+					"name": "Batch Modify Bid Packages",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Batch Modify Bid Packages, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									"     var body = JSON.parse(responseBody);",
+									"",
+									"    pm.collectionVariables.set(\"bidPackagetId\", body.results[0].id);",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"{{bidPackagetId}}\":{\n          \"name\": \"Concrete\",\n          \"number\": \"02\",\n          \"keywords\": [\n            \"Concrete\"\n          ],\n          \"leadUserId\": \"{{userId}}\",\n          \"estimatedCost\": 100000,\n          \"instructions\": \"Instruction about bid\",\n          \"bidsDueAt\": \"2024-09-25T19:00:00.000Z\",\n          \"endsAt\": \"2024-09-25T19:00:00.000Z\",\n          \"rfisDueAt\": \"2024-09-25T19:00:00.000Z\",\n          \"startsAt\": \"2024-09-25T19:00:00.000Z\",\n          \"jobWalkAt\": \"2024-09-25T19:00:00.000Z\" \n        }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bid-packages:batch-patch",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bid-packages:batch-patch"
+							]
+						},
+						"description": "List the user's company's bid packages."
+					},
+					"response": []
+				},
+				{
+					"name": "Batch Delete Bid Packages",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Batch Delete Bid Packages, Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);  ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    \"{{bidPackagetId}}\"\n]"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bid-packages:batch-delete",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bid-packages:batch-delete"
 							]
 						},
 						"description": "List the user's company's bid packages."
@@ -427,7 +1389,104 @@
 							"variable": [
 								{
 									"key": "bidPackageId",
-									"value": "{{bidPackagetId}}",
+									"value": "{{bidPackageId}}",
+									"description": "(Required) The ID of the bid package."
+								}
+							]
+						},
+						"description": "Retrieve a specific bid package."
+					},
+					"response": []
+				},
+				{
+					"name": "Modify one bid package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Modify one bid package, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);  ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\": \"Concrete\",\n        \"number\": \"03\",\n        \"keywords\": [\n          \"Concrete\"\n        ],\n        \"leadUserId\": \"{{userId}}\",\n        \"estimatedCost\": 100000,\n        \"instructions\": \"Instruction about bid\",\n        \"bidsDueAt\": \"2024-09-25T19:00:00.000Z\" \n      }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bid-packages/:bidPackageId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bid-packages",
+								":bidPackageId"
+							],
+							"variable": [
+								{
+									"key": "bidPackageId",
+									"value": "{{bidPackageId}}",
+									"description": "(Required) The ID of the bid package."
+								}
+							]
+						},
+						"description": "Retrieve a specific bid package."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete one bid package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Delete one bid package, Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);  ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/bid-packages/:bidPackageId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bid-packages",
+								":bidPackageId"
+							],
+							"variable": [
+								{
+									"key": "bidPackageId",
+									"value": "{{bidPackageId}}",
 									"description": "(Required) The ID of the bid package."
 								}
 							]
@@ -475,7 +1534,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/invites",
+							"raw": "{{baseUrl}}/invites?filter[projectId]={{projectId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -497,13 +1556,12 @@
 								},
 								{
 									"key": "filter[projectId]",
-									"value": "",
-									"description": "Filter to objects matching this project ID.",
-									"disabled": true
+									"value": "{{projectId}}",
+									"description": "Filter to objects matching this project ID."
 								},
 								{
 									"key": "filter[bidPackageId]",
-									"value": "",
+									"value": "{{bidPackageId}}",
 									"description": "Filter to objects matching this bid package ID.",
 									"disabled": true
 								},
@@ -577,59 +1635,6 @@
 						"description": "Retrieve a specific invite."
 					},
 					"response": []
-				},
-				{
-					"name": "Retrieve a certificate file",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Retrieve a certificate file, Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);  ",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/invites/:inviteId/certificates/:certificateId/file",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"invites",
-								":inviteId",
-								"certificates",
-								":certificateId",
-								"file"
-							],
-							"variable": [
-								{
-									"key": "inviteId",
-									"value": "{{inviteId}}",
-									"description": "(Required) The ID of the invite."
-								},
-								{
-									"key": "certificateId",
-									"value": "{{certificationId}}",
-									"description": "(Required) The ID of the certificate."
-								}
-							]
-						},
-						"description": "Retrieve a short-lived signed URL for downloading a certificate's file."
-					},
-					"response": []
 				}
 			]
 		},
@@ -670,7 +1675,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/bids",
+							"raw": "{{baseUrl}}/bids?filter[projectId]=65e734f4c8c1cb0077f74bc6",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -688,12 +1693,6 @@
 									"key": "limit",
 									"value": "",
 									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
-									"disabled": true
-								},
-								{
-									"key": "filter[projectId]",
-									"value": "",
-									"description": "Filter to objects matching this project ID.",
 									"disabled": true
 								},
 								{
@@ -725,7 +1724,60 @@
 									"value": "true",
 									"description": "Whether to only include bids that are the latest revision for an invited company. If ``true``, only the latest revisions are included. If ``false``, all revisions are included. The default is ``false``.",
 									"disabled": true
+								},
+								{
+									"key": "filter[projectId]",
+									"value": "65e734f4c8c1cb0077f74bc6"
 								}
+							]
+						},
+						"description": "List bids recieved by the user's company from invited bidders."
+					},
+					"response": []
+				},
+				{
+					"name": "Create bid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create bid, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"bidId\", body.id); ",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"inviteId\": \"{{inviteId}}\",\n        \"notes\": \"Notes about bid\",\n        \"total\": 5000,\n        \"lineItems\": [\n          {\n            \"id\": \"65d5723ab7bf97004915c40c\",\n            \"type\": \"COST_BREAKDOWN\",\n            \"description\": \"AC Paving\",\n            \"section\": null, \n            \"unit\": \"TOTAL_COST_ONLY\", \n            \"value\": 456\n        },\n        {\n            \"id\": \"64759470e921980035fd77db\",\n            \"type\": \"COST_BREAKDOWN\",\n            \"description\": \"Custom Detention Furniture\",\n            \"section\": null,\n          \n            \"isCustom\": false,\n            \"unit\": \"TOTAL_COST_ONLY\",\n            \"code\": null,\n           \n            \"value\": 4566\n        },\n        {\n            \"id\": \"64758f9bcfda9e0042ad98ed\",\n            \"type\": \"BONDING\",\n            \"description\": \"test\",\n            \"section\": null,\n          \n            \"isCustom\": false,\n            \"unit\": \"PERCENTAGE\",\n            \"code\": null,\n            \"quantity\": null,\n            \"isQuantityFixed\": null,\n            \"unitCost\": null,\n            \"value\": null\n        },\n\n        {\n            \"type\": \"COST_BREAKDOWN\",\n            \"description\": \"Duct Insulation\",\n            \"section\": \"Furnish & Install\",\n            \"isCustom\": false,\n            \"unit\": \"HOURS\",\n            \"code\": \"D2\",\n            \"quantity\": 10,\n            \"unitCost\": 500,\n            \"value\": 10000\n          }\n\n        ]\n      }"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bids",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bids"
 							]
 						},
 						"description": "List bids recieved by the user's company from invited bidders."
@@ -739,7 +1791,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"List one bid, Status code is 200\", function () {",
+									"pm.test(\"Retrieve one bid, Status code is 200\", function () {",
 									"    pm.response.to.have.status(200); ",
 									"",
 									"});",
@@ -775,6 +1827,199 @@
 							]
 						},
 						"description": "Retrieve a specific bid."
+					},
+					"response": []
+				},
+				{
+					"name": "Create bid attachment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create a bid attachment, Status code is 201\", function () {",
+									"    pm.response.to.have.status(201); ",
+									"",
+									"    var body = JSON.parse(responseBody);",
+									"    ",
+									"    pm.collectionVariables.set(\"attachmentId\", body.id);",
+									"",
+									"    pm.collectionVariables.set(\"url\", body.url);",
+									"    pm.collectionVariables.set(\"policy\", body.formData.policy);",
+									"     pm.collectionVariables.set(\"signature\", body.formData.signature);",
+									" pm.collectionVariables.set(\"key\", body.formData.key);",
+									" pm.collectionVariables.set(\"Content-Type\", body.formData[\"Content-Type\"]);",
+									"  pm.collectionVariables.set(\"AWSAccessKeyId\", body.formData.AWSAccessKeyId);",
+									"   pm.collectionVariables.set(\"acl\", body.formData.acl);",
+									"   pm.collectionVariables.set(\"Content-Disposition\", body.formData[\"Content-Disposition\"]);",
+									" pm.collectionVariables.set(\"success_action_status\", body.formData.success_action_status);",
+									"",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"test.png\",\n    \"size\":128000\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bids/attachments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bids",
+								"attachments"
+							]
+						},
+						"description": "Retrieve a bid attachment."
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Attachment File",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Upload a bid attachment file, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "policy",
+									"value": "{{policy}}",
+									"type": "text"
+								},
+								{
+									"key": "signature",
+									"value": "{{signature}}",
+									"type": "text"
+								},
+								{
+									"key": "Content-Type",
+									"value": "{{Content-Type}}",
+									"type": "text"
+								},
+								{
+									"key": "AWSAccessKeyId",
+									"value": "{{AWSAccessKeyId}}",
+									"type": "text"
+								},
+								{
+									"key": "acl",
+									"value": "{{acl}}",
+									"type": "text"
+								},
+								{
+									"key": "Content-Disposition",
+									"value": "{{Content-Disposition}}",
+									"type": "text"
+								},
+								{
+									"key": "success_action_status",
+									"value": "{{success_action_status}}",
+									"type": "text"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/liangx/Desktop/Screenshot 2024-03-07 at 07.28.07.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "Retrieve a bid attachment."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a bid attachment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Delete a bid attachment, Status code is 204\", function () {",
+									"    pm.response.to.have.status(204); ",
+									"    ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bids/attachments/:attachmentId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bids",
+								"attachments",
+								":attachmentId"
+							],
+							"variable": [
+								{
+									"key": "attachmentId",
+									"value": "{{attachmentId}}"
+								}
+							]
+						},
+						"description": "Retrieve a bid attachment."
 					},
 					"response": []
 				},
@@ -838,7 +2083,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"lis a bid items, Status code is 200\", function () {",
+									"pm.test(\"list bid items, Status code is 200\", function () {",
 									"    pm.response.to.have.status(200); ",
 									"",
 									"});",
@@ -955,19 +2200,19 @@
 			]
 		},
 		{
-			"name": "opportunities",
+			"name": "project-bid-forms",
 			"item": [
 				{
-					"name": "List opportunities",
+					"name": "List project bid forms",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"List opportunities, Status code is 200\", function () {",
+									"pm.test(\"List project bid forms, Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"    var body = JSON.parse(responseBody);",
-									"    pm.collectionVariables.set(\"oppId\", body.results[0].id);",
+									"    pm.collectionVariables.set(\"bidFormId\", body.results[0].id);",
 									" ",
 									"});",
 									"  "
@@ -985,7 +2230,1314 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/opportunities",
+							"raw": "{{baseUrl}}/project-bid-forms",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"project-bid-forms"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								},
+								{
+									"key": "filter[projectId]",
+									"value": "",
+									"description": "Filter to objects matching this project ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List the user's company's project bid forms."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve one project bid form",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Retrieve one project bid form, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/project-bid-forms/:formId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"project-bid-forms",
+								":formId"
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{bidFormId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retrieve a specific project bid form."
+					},
+					"response": []
+				},
+				{
+					"name": "List a project bid form's line items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List a project bid form's line items, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									"",
+									"     var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"lineItemId\", body.results[0].id);",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/project-bid-forms/:formId/line-items",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"project-bid-forms",
+								":formId",
+								"line-items"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{bidFormId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "List a specific project bid form's line items."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Project Bid Form",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create project bid forms, Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"bidFormId\", body.results[0].id);",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"projectId\":\"{{projectId}}\",\n    \"lineItems\":[]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/project-bid-forms",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"project-bid-forms"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								},
+								{
+									"key": "filter[projectId]",
+									"value": "",
+									"description": "Filter to objects matching this project ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List the user's company's project bid forms."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Project Bid Form Items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create Project Bid Form Items, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody); ",
+									"",
+									"    pm.collectionVariables.set(\"lineItemId\", body.id);",
+									" ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"type\": \"ACKNOWLEDGMENT\",\n        \"description\": \"Did you see thing 5\",\n        \"section\": null,\n        \"isRequired\": true,\n        \"unit\": \"YES_NO\",\n        \"external\": {\n          \"id\": \"external-id-demo\",\n          \"name\": \"ACKNOWLEDGMENT\"\n        }\n    }"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/project-bid-forms/:bidFormId/line-items",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"project-bid-forms",
+								":bidFormId",
+								"line-items"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								},
+								{
+									"key": "filter[projectId]",
+									"value": "",
+									"description": "Filter to objects matching this project ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "bidFormId",
+									"value": "{{bidFormId}}"
+								}
+							]
+						},
+						"description": "List the user's company's project bid forms."
+					},
+					"response": []
+				},
+				{
+					"name": "Batch Create Project Bid Form Items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Batch Create Project Bid Form Items, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									" ",
+									"     var body = JSON.parse(responseBody); ",
+									"",
+									"  pm.collectionVariables.set(\"lineItemId\", body.results[0].id);",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"type\": \"ACKNOWLEDGMENT\",\n          \"description\": \"Did you see thing 1\",\n          \"section\": null,\n          \"isRequired\": true,\n          \"unit\": \"YES_NO\",\n            \"external\": null\n        },\n        \n        {\n                \"type\": \"ACKNOWLEDGMENT\",\n            \"description\": \"my test by APIxxx\",\n            \"section\": null,\n            \"isRequired\": true,\n            \"unit\": \"YES_NO\",\n            \"external\": null\n        }\n]"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/project-bid-forms/:formId/line-items:batch-create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"project-bid-forms",
+								":formId",
+								"line-items:batch-create"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{bidFormId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "List a specific project bid form's line items."
+					},
+					"response": []
+				},
+				{
+					"name": "Batch Modify Project Bid Form Items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Batch Modify Project Bid Form Items, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"65e5e895ce254b004cb15179\": {\n          \"description\": \"Did you see thing2\",\n          \"section\": \"Section 1\",\n          \"external\": {\n            \"id\": \"1234-3214-1234-3214\",\n            \"name\": \"External System\"\n          }\n        }\n      }"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/project-bid-forms/:formId/line-items:batch-patch",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"project-bid-forms",
+								":formId",
+								"line-items:batch-patch"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{bidFormId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "List a specific project bid form's line items."
+					},
+					"response": []
+				},
+				{
+					"name": "Batch Delete Project Bid Form Items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Batch Delete Project Bid Form Items, Status code is 204\", function () {",
+									"    pm.response.to.have.status(204); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    \"65e5e895ce254b004cb15179\"\n]"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/project-bid-forms/:formId/line-items:batch-delete",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"project-bid-forms",
+								":formId",
+								"line-items:batch-delete"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{bidFormId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "List a specific project bid form's line items."
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Project Bid Form Items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Patch Project Bid Form Items, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Did you see thing 1\",\n    \"section\": null,\n    \"isRequired\": true,\n    \"unit\": \"YES_NO\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/project-bid-forms/:formId/line-items/:lineItemId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"project-bid-forms",
+								":formId",
+								"line-items",
+								":lineItemId"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{bidFormId}}",
+									"description": "(Required) "
+								},
+								{
+									"key": "lineItemId",
+									"value": "{{lineItemId}}"
+								}
+							]
+						},
+						"description": "List a specific project bid form's line items."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project Bid Form Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Delete Project Bid Form Item, Status code is 204\", function () {",
+									"    pm.response.to.have.status(204); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/project-bid-forms/:formId/line-items/:lineItemId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"project-bid-forms",
+								":formId",
+								"line-items",
+								":lineItemId"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{bidFormId}}",
+									"description": "(Required) "
+								},
+								{
+									"key": "lineItemId",
+									"value": "{{lineItemId}}"
+								}
+							]
+						},
+						"description": "List a specific project bid form's line items."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "project-bid-scope-specific-forms",
+			"item": [
+				{
+					"name": "List scope specific  bid forms",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List scope specific  bid forms, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"scopeSpecificBidFormId\", body.results[0].id);",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/scope-specific-bid-forms",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scope-specific-bid-forms"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								},
+								{
+									"key": "filter[projectId]",
+									"value": "",
+									"description": "Filter to objects matching this project ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List the user's company's project bid forms."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve one scope specific bid form",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Retrieve one scope specific bid form, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/scope-specific-bid-forms/:formId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scope-specific-bid-forms",
+								":formId"
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{bidFormId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retrieve a specific project bid form."
+					},
+					"response": []
+				},
+				{
+					"name": "List a scope specific bid form's line items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List scope specific bid form's line items, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									"",
+									"     var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"lineItemId\", body.results[0].id);",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/scope-specific-bid-forms/:formId/line-items",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scope-specific-bid-forms",
+								":formId",
+								"line-items"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{scopeSpecificBidFormId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "List a specific project bid form's line items."
+					},
+					"response": []
+				},
+				{
+					"name": "Create scope specific bid form",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create scope specific bid form, Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"scopeSpecificBidFormId\", body.id);",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"bidPackageId\": \"{{bidPackageId}}\",\n        \"lineItems\": [\n          {\n            \"type\": \"COST_BREAKDOWN\",\n            \"description\": \"Duct Insulation\",\n            \"section\": \"Furnish & Install\",\n            \"isRequired\": true,\n            \"unit\": \"HOURS\",\n            \"code\": \"D2\",\n            \"quantity\": 1000,\n            \"isQuantityFixed\": true \n          }\n        ]\n      }"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/scope-specific-bid-forms",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scope-specific-bid-forms"
+							]
+						},
+						"description": "List the user's company's project bid forms."
+					},
+					"response": []
+				},
+				{
+					"name": "Create scope specific bid form items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create scope specific bid form items, Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    var body = JSON.parse(responseBody); ",
+									"",
+									"    pm.collectionVariables.set(\"scopeSpecificBidFormlineItemId\", body.id); ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"type\": \"COST_BREAKDOWN\",\n        \"description\": \"Duct Insulation-6\",\n        \"section\": \"Furnish & Install\",\n        \"isRequired\": true,\n        \"unit\": \"HOURS\",\n        \"code\": \"D2\",\n        \"quantity\": 1000,\n        \"isQuantityFixed\": true,\n        \"external\": {\n          \"id\": \"12345\",\n          \"name\": \"externaltest\"\n        }\n      }"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/scope-specific-bid-forms/:bidFormId/line-items",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scope-specific-bid-forms",
+								":bidFormId",
+								"line-items"
+							],
+							"variable": [
+								{
+									"key": "bidFormId",
+									"value": "{{scopeSpecificBidFormId}}"
+								}
+							]
+						},
+						"description": "List the user's company's project bid forms."
+					},
+					"response": []
+				},
+				{
+					"name": "Batch create scope specific bid form items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Batch create scope specific bid form items, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									" ",
+									"     var body = JSON.parse(responseBody); ",
+									"",
+									"  pm.collectionVariables.set(\"scopeSpecificBidFormlineItemId\", body.results[0].id);",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n   {\n        \"type\": \"COST_BREAKDOWN\",\n        \"description\": \"Duct Insulation-4\",\n        \"section\": \"Furnish & Install\",\n        \"isRequired\": true,\n        \"unit\": \"HOURS\",\n        \"code\": \"D2\",\n        \"quantity\": 1000,\n        \"isQuantityFixed\": true,\n        \"external\": {\n          \"id\": \"12345\",\n          \"name\": \"externaltest\"\n        }\n      }\n]"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/scope-specific-bid-forms/:formId/line-items:batch-create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scope-specific-bid-forms",
+								":formId",
+								"line-items:batch-create"
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{scopeSpecificBidFormId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "List a specific project bid form's line items."
+					},
+					"response": []
+				},
+				{
+					"name": "Batch modify scope specific bid form Items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"BBatch modify scope specific bid form Items, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"{{scopeSpecificBidFormlineItemId}}\": {\n             \"description\": \"Duct Insulation-4\",\n            \"section\": \"Furnish & Install\",\n            \"isRequired\": true,\n            \"unit\": \"HOURS\",\n            \"code\": \"D2\",\n            \"quantity\": 2000,\n            \"isQuantityFixed\": true\n        }\n      }"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/scope-specific-bid-forms/:formId/line-items:batch-patch",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scope-specific-bid-forms",
+								":formId",
+								"line-items:batch-patch"
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{scopeSpecificBidFormId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "List a specific project bid form's line items."
+					},
+					"response": []
+				},
+				{
+					"name": "Batch delete scope specific bid form Items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Batch delete scope specific bid form Items, Status code is 204\", function () {",
+									"    pm.response.to.have.status(204); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    \"65e737c53bb08c003b6504f0\"\n]"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/scope-specific-bid-forms/:formId/line-items:batch-delete",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scope-specific-bid-forms",
+								":formId",
+								"line-items:batch-delete"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{scopeSpecificBidFormId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "List a specific project bid form's line items."
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Project Bid Form Items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Patch Project Bid Form Items, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n      \"description\": \"Duct Insulation-5\",\n            \"section\": \"Furnish & Install\",\n            \"isRequired\": true,\n            \"unit\": \"HOURS\",\n            \"code\": \"D2\",\n            \"quantity\": 2000,\n            \"isQuantityFixed\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/scope-specific-bid-forms/:formId/line-items/:lineItemId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scope-specific-bid-forms",
+								":formId",
+								"line-items",
+								":lineItemId"
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{scopeSpecificBidFormId}}",
+									"description": "(Required) "
+								},
+								{
+									"key": "lineItemId",
+									"value": "{{scopeSpecificBidFormlineItemId}}"
+								}
+							]
+						},
+						"description": "List a specific project bid form's line items."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete scope specific bid form item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Delete scope specific bid form item, Status code is 204\", function () {",
+									"    pm.response.to.have.status(204); ",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/scope-specific-bid-forms/:formId/line-items/:lineItemId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scope-specific-bid-forms",
+								":formId",
+								"line-items",
+								":lineItemId"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "formId",
+									"value": "{{scopeSpecificBidFormId}}",
+									"description": "(Required) "
+								},
+								{
+									"key": "lineItemId",
+									"value": "{{scopeSpecificBidFormlineItemId}}"
+								}
+							]
+						},
+						"description": "List a specific project bid form's line items."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "opportunities",
+			"item": [
+				{
+					"name": "List opportunities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List opportunities, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"oppId\", body.results[0].id);",
+									"     pm.collectionVariables.set(\"cursorState\", body.pagination.cursorState);",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/opportunities?cursorState={{cursorState}}",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -995,9 +3547,8 @@
 							"query": [
 								{
 									"key": "cursorState",
-									"value": "",
-									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
-									"disabled": true
+									"value": "{{cursorState}}",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination."
 								},
 								{
 									"key": "limit",
@@ -1017,6 +3568,121 @@
 									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
 									"disabled": true
 								}
+							]
+						},
+						"description": "List the user's company's opportunities."
+					},
+					"response": []
+				},
+				{
+					"name": "List opportunities Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List opportunities, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"oppId\", body.results[0].id);",
+									"     pm.collectionVariables.set(\"cursorState\", body.pagination.cursorState);",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/opportunities?cursorState={{cursorState}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"opportunities"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "{{cursorState}}",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination."
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								},
+								{
+									"key": "filter[clientCompanyId]",
+									"value": "",
+									"description": "Filter to objects matching this client company ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List the user's company's opportunities."
+					},
+					"response": []
+				},
+				{
+					"name": "Create opportunities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List opportunities, Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"oppId\", body.id);",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Office Renovation - as child\",\n    \"requestType\":\"BUDGET\",\n     \"isParent\": false, \n    \"client\": {\n                \n                \"lead\": {\n                    \"id\": \"63eaddea4dc87e1cc1ce1793\",\n                       \"email\": \"xiaodongliang@hotmail.com\"\n                },\n                \"office\": {\n                    \"id\": \"61f96aff484b0200c7176ea0\"\n                  \n                }\n            }\n\n\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/opportunities",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"opportunities"
 							]
 						},
 						"description": "List the user's company's opportunities."
@@ -1066,6 +3732,111 @@
 							]
 						},
 						"description": "Retrieve a specific opportunity."
+					},
+					"response": []
+				},
+				{
+					"name": "Modify one opportunity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List opportunities, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"oppId\", body.id);",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Xiaodong Test by API - Budget\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/opportunities/:oppId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"opportunities",
+								":oppId"
+							],
+							"variable": [
+								{
+									"key": "oppId",
+									"value": "{{oppId}}"
+								}
+							]
+						},
+						"description": "List the user's company's opportunities."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete opportunities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Delete one opportunity, Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/opportunities/:oppId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"opportunities",
+								":oppId"
+							],
+							"variable": [
+								{
+									"key": "oppId",
+									"value": "{{oppId}}"
+								}
+							]
+						},
+						"description": "List the user's company's opportunities."
 					},
 					"response": []
 				}
@@ -1196,17 +3967,25 @@
 						"description": "Retrieve a specific contact."
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
 				{
-					"name": "Retrieve a certificate file",
+					"name": "List users",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Retrieve a certificate file, Status code is 200\", function () {",
+									"pm.test(\"List users, Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"})"
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"userId\", body.results[1].id);",
+									"});",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -1221,50 +4000,133 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/contacts/:contactId/certificates/:certificateId/file",
+							"raw": "{{baseUrl}}/users",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"contacts",
-								":contactId",
-								"certificates",
-								":certificateId",
-								"file"
+								"users"
 							],
-							"variable": [
+							"query": [
 								{
-									"key": "contactId",
-									"value": "{{contactId}}",
-									"description": "(Required) The ID of the contact."
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
 								},
 								{
-									"key": "certificateId",
-									"value": "{{certificationId}}",
-									"description": "(Required) The ID of the certificate."
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
 								}
 							]
 						},
-						"description": "Retrieve a short-lived signed URL for downloading a certificate's file."
+						"description": "List the user's company's users. Results are scoped to a given BuildingConnected company (invited external members on projects will not be included). "
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve a specific user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Retrieve a specific user, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/:userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "{{userId}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retrieve the user object for a specific BuildingConnected user. Results are scoped to the requester's user's company."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve my user information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Retrieve my user information, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						},
+						"description": "Fetches the user object for requesting user. The Autodesk ID provided in the auothorization is mapped to a specific user in BuildingConnected. Users can only belong to a single company in BuildingConnected, and Autodesk ID can only map to one specific BuildingConnected user ID."
 					},
 					"response": []
 				}
 			]
 		},
 		{
-			"name": "project-bid-forms",
+			"name": "certifications",
 			"item": [
 				{
-					"name": "List project bid forms",
+					"name": "Get Certificate Types",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"List project bid forms, Status code is 200\", function () {",
+									"pm.test(\"Get Certificate Types, Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"    var body = JSON.parse(responseBody);",
-									"    pm.collectionVariables.set(\"bidFormId\", body.results[0].id);",
+									"    pm.collectionVariables.set(\"certificationIdId\", body.results[0].id);",
 									" ",
 									"});",
 									"  "
@@ -1282,12 +4144,73 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/project-bid-forms",
+							"raw": "{{baseUrl}}/certificate-types",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"project-bid-forms"
+								"",
+								"certificate-types"
+							],
+							"query": [
+								{
+									"key": "cursorState",
+									"value": "",
+									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination.\n",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List the invites sent by the user's company to solicit proposals."
+					},
+					"response": []
+				},
+				{
+					"name": "GET Certificate Agencies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET Certificate Agencies, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"certificateAgencyId\", body.results[0].id);",
+									" ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/certificate-agencies",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"certificate-agencies"
 							],
 							"query": [
 								{
@@ -1304,8 +4227,8 @@
 								},
 								{
 									"key": "filter[projectId]",
-									"value": "",
-									"description": "Filter to objects matching this project ID.",
+									"value": "{{projectId}}",
+									"description": "Filter to objects matching this bidder company ID.",
 									"disabled": true
 								},
 								{
@@ -1313,69 +4236,35 @@
 									"value": "",
 									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
 									"disabled": true
-								}
-							]
-						},
-						"description": "List the user's company's project bid forms."
-					},
-					"response": []
-				},
-				{
-					"name": "Retrieve one project bid form",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Retrieve one project bid form, Status code is 200\", function () {",
-									"    pm.response.to.have.status(200); ",
-									" ",
-									"});",
-									"  "
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/project-bid-forms/:formId",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"project-bid-forms",
-								":formId"
-							],
-							"variable": [
+								},
 								{
-									"key": "formId",
-									"value": "{{bidFormId}}",
-									"description": "(Required) "
+									"key": "filter[userId]",
+									"value": "{{userId}}",
+									"disabled": true
 								}
 							]
 						},
-						"description": "Retrieve a specific project bid form."
+						"description": "List the invites sent by the user's company to solicit proposals."
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "Offices",
+			"item": [
 				{
-					"name": "List a project bid form's line items",
+					"name": "List Offices",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"List a project bid form's line items, Status code is 200\", function () {",
-									"    pm.response.to.have.status(200); ",
-									" ",
+									"pm.test(\"List Offices, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"officeId\", body.results[0].id);",
+									"",
 									"});",
 									"  "
 								],
@@ -1392,14 +4281,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/project-bid-forms/:formId/line-items",
+							"raw": "{{baseUrl}}/offices",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"project-bid-forms",
-								":formId",
-								"line-items"
+								"offices"
 							],
 							"query": [
 								{
@@ -1413,37 +4300,30 @@
 									"value": "",
 									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
 									"disabled": true
-								}
-							],
-							"variable": [
+								},
 								{
-									"key": "formId",
-									"value": "{{bidFormId}}",
-									"description": "(Required) "
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
 								}
 							]
 						},
-						"description": "List a specific project bid form's line items."
+						"description": "List the invites sent by the user's company to solicit proposals."
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "scope-specific-bid-forms",
-			"item": [
+				},
 				{
-					"name": "List scope-specific bid forms",
+					"name": "GET One Office",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"List scope-specific bid forms, Status code is 200\", function () {",
+									"pm.test(\"Get One Office, Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"    var body = JSON.parse(responseBody);",
-									"    pm.collectionVariables.set(\"bidSpecificFormId\", body.results[0].id);",
-									" ",
+									"    var body = JSON.parse(responseBody); ",
+									"",
 									"});",
 									"  "
 								],
@@ -1460,12 +4340,67 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/scope-specific-bid-forms",
+							"raw": "{{baseUrl}}//offices/:officeId",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"scope-specific-bid-forms"
+								"",
+								"offices",
+								":officeId"
+							],
+							"variable": [
+								{
+									"key": "officeId",
+									"value": "{{officeId}}"
+								}
+							]
+						},
+						"description": "List the invites sent by the user's company to solicit proposals."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "opportunity-project-pairs",
+			"item": [
+				{
+					"name": "Get Opportunity Project Pairs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get Opportunity Project Pairs, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"pairId\", body.results[0].id);",
+									" ",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/opportunity-project-pairs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"",
+								"opportunity-project-pairs"
 							],
 							"query": [
 								{
@@ -1482,14 +4417,8 @@
 								},
 								{
 									"key": "filter[projectId]",
-									"value": "",
-									"description": "Filter to objects matching this project ID.",
-									"disabled": true
-								},
-								{
-									"key": "filter[bidPackageId]",
-									"value": "",
-									"description": "Filter to objects matching this bid package ID.",
+									"value": "{{projectId}}",
+									"description": "Filter to objects matching this bidder company ID.",
 									"disabled": true
 								},
 								{
@@ -1497,68 +4426,29 @@
 									"value": "",
 									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
 									"disabled": true
-								}
-							]
-						},
-						"description": "List the user's company's scope-specific bid forms. The term \"scope-specific\" is displayed in the BuildingConnected applications and refers specifically to a given bid package (e.g., the \"Concrete\" bid package may have it's own scope-specific bid package)."
-					},
-					"response": []
-				},
-				{
-					"name": "Retrieve one scope-specific bid form",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Retrieve one scope-specific bid form, Status code is 200\", function () {",
-									"    pm.response.to.have.status(200); ",
-									" ",
-									"});",
-									"  "
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/scope-specific-bid-forms/:formId",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"scope-specific-bid-forms",
-								":formId"
-							],
-							"variable": [
+								},
 								{
-									"key": "formId",
-									"value": "{{bidSpecificFormId}}",
-									"description": "(Required) "
+									"key": "filter[opportunityId]",
+									"value": "{{oppId}}",
+									"disabled": true
 								}
 							]
 						},
-						"description": "Retrieve a specific scope-specific bid form."
+						"description": "List the invites sent by the user's company to solicit proposals."
 					},
 					"response": []
 				},
 				{
-					"name": "List a scope-specific bid form's line items",
+					"name": "Relink opp pair from child to group",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"List a scope-specific bid form's line items, Status code is 200\", function (){",
-									"    pm.response.to.have.status(200); ",
+									"pm.test(\"Relink opp pair from child to group, Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"pairId\", body.id);",
 									" ",
 									"});",
 									"  "
@@ -1568,22 +4458,29 @@
 						}
 					],
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Accept",
 								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"opportunityId\":\"{{oppId}}\",\n   \"projectId\":\"{{projectId}}\" \n}"
+						},
 						"url": {
-							"raw": "{{baseUrl}}/scope-specific-bid-forms/:formId/line-items",
+							"raw": "{{baseUrl}}/opportunity-project-pairs",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"scope-specific-bid-forms",
-								":formId",
-								"line-items"
+								"opportunity-project-pairs"
 							],
 							"query": [
 								{
@@ -1597,17 +4494,127 @@
 									"value": "",
 									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
 									"disabled": true
-								}
-							],
-							"variable": [
+								},
 								{
-									"key": "formId",
-									"value": "{{bidSpecificFormId}}",
-									"description": "(Required) "
+									"key": "filter[projectId]",
+									"value": "65103c3ad5eada003eaca9bf",
+									"description": "Filter to objects matching this bidder company ID.",
+									"disabled": true
+								},
+								{
+									"key": "filter[updatedAt]",
+									"value": "",
+									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
+									"disabled": true
+								},
+								{
+									"key": "filter[userId]",
+									"value": "63eaddde697fe81caf7ebfd9",
+									"disabled": true
 								}
 							]
 						},
-						"description": "List a specific scope-specific bid form's line items."
+						"description": "List the invites sent by the user's company to solicit proposals."
+					},
+					"response": []
+				},
+				{
+					"name": "Get one opp project pair",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get one opp project pair, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);  ",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/opportunity-project-pairs/:pairId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"opportunity-project-pairs",
+								":pairId"
+							],
+							"variable": [
+								{
+									"key": "pairId",
+									"value": "{{pairId}}"
+								}
+							]
+						},
+						"description": "List the invites sent by the user's company to solicit proposals."
+					},
+					"response": []
+				},
+				{
+					"name": "Transfer project from child opp to group opp",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Transfer project from child opp to group opp, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var body = JSON.parse(responseBody); ",
+									"",
+									"});",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"projectId\":\"{{projectId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/opportunity-project-pairs/:pairId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"opportunity-project-pairs",
+								":pairId"
+							],
+							"variable": [
+								{
+									"key": "pairId",
+									"value": "65e72c52b8aaa2003b0ff3ba"
+								}
+							]
+						},
+						"description": "List the invites sent by the user's company to solicit proposals."
 					},
 					"response": []
 				}
@@ -2767,6 +5774,1244 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Manage Projects, Bid Packages, Bid Forms, and Bidders",
+					"item": [
+						{
+							"name": "Step1 Option 1A: Create a Project Directly",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step1 Option 1A: Create a Project Directly, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"",
+											"     var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"projectId\", body.id);",
+											"",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"POST test location - 1\",\n    \"location\": {\n        \"complete\": \"1 market san francisco\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step1 Option 1B: Clone a Project Template with Info and Costs",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step1 Option 1B: Clone a Project Template with Info and Costs, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"",
+											"     var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"projectId\", body.id);",
+											"",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"POST Project from Template\",\n    \"originalProjectId\": \"{{templateProjectId}}\",\n    \"template\": {\n        \"includeInfo\": true,\n        \"includeForm\": false,\n        \"includeCosts\": true,\n        \"includeFiles\": false\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step1 Option 1C: Clone a Project Template with Bid Packages",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step1 Option 1C: Clone a Project Template with Bid Packages, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"",
+											"     var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"projectId\", body.id);",
+											"",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"POST Project from Template\",\n    \"originalProjectId\": \"65e9336756d8a40043f9df59\",\n    \"template\": {\n        \"includeInfo\": true,\n        \"includeForm\": true,\n        \"includeCosts\": false,\n        \"includeFiles\": false,\n        \"bidPackages\": {\n            \"includeForm\": true,\n            \"includeFiles\":false,\n            \"bidderStates\": [\"BID_SUBMITTED\"]\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 2: (Optional) Update the Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 2: (Optional) Update the Project, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200); ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Office Renovation\",\n    \"number\": \"12345\",\n    \"client\": \"Wells Fargo\",\n    \"description\": \"Short description of the project\",\n    \"notes\": \"<div>This project''s <b>important</b> notes.</div>\",\n    \"value\": 1000000,\n    \"projectSize\": 123,\n    \"projectSizeUnits\": \"SQUARE_FEET\",\n    \"isBiddingSealed\": false,\n    \"state\": \"CLOSED\",\n    \"isPublic\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "{{projectId}}"
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 3: Add Bid Packages to the Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 3: Add Bid Packages to the Project, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201); ",
+											"  var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"bidPackageId\", body.id);",
+											"",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"projectId\": \"{{projectId}}\",\n    \"name\": \"Concrete\",\n        \"number\": \"03\",\n        \"keywords\": [\n          \"Concrete\"\n        ],\n        \"estimatedCost\": 100000,\n        \"instructions\": \"Instruction about bid\",\n        \"bidsDueAt\": \"2024-09-25T19:00:00.000Z\",\n        \"endsAt\": \"2024-09-25T19:00:00.000Z\",\n        \"rfisDueAt\": \"2024-09-25T19:00:00.000Z\",\n        \"startsAt\": \"2024-09-25T19:00:00.000Z\",\n        \"jobWalkAt\": \"2024-09-25T19:00:00.000Z\" \n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bid-packages",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bid-packages"
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 4.1: Create a Project Bid Form",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 4: Add Bid Forms to the Project, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201); ",
+											"  var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"bidFormId\", body.id);",
+											"",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"projectId\": \"{{projectId}}\",\n    \"lineItems\": [\n        {\n            \"type\": \"ACKNOWLEDGMENT\",\n            \"description\": \"Do you acknowledge this?\",\n            \"isRequired\": true,\n            \"unit\": \"YES_NO\"\n        },\n        {\n            \"type\": \"BONDING\",\n            \"description\": \"What is your bond rate?\",\n            \"isRequired\": true,\n            \"unit\": \"PERCENTAGE\"\n        },\n        {\n            \"type\": \"CERTIFICATION\",\n            \"description\": \"Do you have this certification?\",\n            \"isRequired\": true,\n            \"unit\": \"YES_NO\"\n        },\n        {\n            \"type\": \"DISCLAIMER\",\n            \"description\": \"My disclaimer...\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/project-bid-forms",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"project-bid-forms"
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 4.2: Create a Scope Specific Bid Form",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 4.2: Create a Scope Specific Bid Form, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201); ",
+											"  var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"scopeSpecificBidFormId\", body.id);",
+											"",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"bidPackageId\": \"{{bidPackageId}}\",\n    \"lineItems\": [\n        {\n            \"type\": \"COST_BREAKDOWN\",\n            \"description\": \"Line Item 1\",\n            \"isRequired\": true,\n            \"unit\": \"TOTAL_COST_ONLY\"\n        },\n        {\n            \"type\": \"COST_BREAKDOWN\",\n            \"description\": \"Line Item 2\",\n            \"isRequired\": true,\n            \"unit\": \"CUBIC_FT\",\n            \"quantity\": 5,\n            \"isQuantityFixed\": true\n        },\n        {\n            \"type\": \"INCLUSION\",\n            \"description\": \"Inclusion 1\",\n            \"isRequired\": true,\n            \"unit\": \"YES_NO_WITH_ADJUSTMENT\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/scope-specific-bid-forms",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"scope-specific-bid-forms"
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create and Manage Opportunities",
+					"item": [
+						{
+							"name": "Step 1: Create an opportunity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 1: Create an opportunity, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"oppId\", body.id);",
+											" ",
+											"});",
+											"  "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"My Opportunity\",\n  \"number\": \"OPP-1234\",\n  \"client\": {\n      \"lead\": {\n          \"email\": \"xiaodongliang@hotmail.com\"\n      }\n  }\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/opportunities",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"opportunities"
+									]
+								},
+								"description": "List the user's company's opportunities."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 2: Update the opportunity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 2: Update the opportunity, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200); ",
+											" ",
+											"});",
+											"  "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Large Recreation\",\n  \"number\": \"OPP-9999\",\n  \"dueAt\": \"2023-08-10T19:00:00.000Z\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/opportunities/:oppId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"opportunities",
+										":oppId"
+									],
+									"variable": [
+										{
+											"key": "oppId",
+											"value": "{{oppId}}"
+										}
+									]
+								},
+								"description": "List the user's company's opportunities."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 3: Option 3A: Create the Group Parent with no Children",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Option 3A: Create the Group Parent with no Children, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201); ",
+											"  var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"oppId\", body.id);",
+											"});",
+											"    "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Opportunity Group A\",\n  \"isParent\": true\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/opportunities",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"opportunities"
+									]
+								},
+								"description": "List the user's company's opportunities."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 3: Option 3B: Add Existing Opportunities to the New Group",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Option 3B: Add Existing Opportunities to the New Group, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201); ",
+											"  var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"oppId\", body.id);",
+											"});",
+											"  "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Opportunity Group A\",\n  \"isParent\": true\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/opportunities",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"opportunities"
+									]
+								},
+								"description": "List the user's company's opportunities."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create Bids and Attachments",
+					"item": [
+						{
+							"name": "Step 1. Create a Bid Attachment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 1. Create a Bid Attachment, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201); ",
+											"",
+											"    var body = JSON.parse(responseBody);",
+											"    ",
+											"    pm.collectionVariables.set(\"attachmentId\", body.id);",
+											"",
+											"    pm.collectionVariables.set(\"url\", body.url);",
+											"    pm.collectionVariables.set(\"policy\", body.formData.policy);",
+											"     pm.collectionVariables.set(\"signature\", body.formData.signature);",
+											" pm.collectionVariables.set(\"key\", body.formData.key);",
+											" pm.collectionVariables.set(\"Content-Type\", body.formData[\"Content-Type\"]);",
+											"  pm.collectionVariables.set(\"AWSAccessKeyId\", body.formData.AWSAccessKeyId);",
+											"   pm.collectionVariables.set(\"acl\", body.formData.acl);",
+											"   pm.collectionVariables.set(\"Content-Disposition\", body.formData[\"Content-Disposition\"]);",
+											" pm.collectionVariables.set(\"success_action_status\", body.formData.success_action_status);",
+											"",
+											"",
+											"});",
+											"  "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"test.pdf\",\n    \"size\":75000\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bids/attachments",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bids",
+										"attachments"
+									]
+								},
+								"description": "Retrieve a bid attachment."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 2. Upload the Bid Attachment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 2. Upload the Bid Attachment, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201); ",
+											"",
+											"});",
+											"  "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "policy",
+											"value": "{{policy}}",
+											"type": "text"
+										},
+										{
+											"key": "signature",
+											"value": "{{signature}}",
+											"type": "text"
+										},
+										{
+											"key": "Content-Type",
+											"value": "{{Content-Type}}",
+											"type": "text"
+										},
+										{
+											"key": "AWSAccessKeyId",
+											"value": "{{AWSAccessKeyId}}",
+											"type": "text"
+										},
+										{
+											"key": "acl",
+											"value": "{{acl}}",
+											"type": "text"
+										},
+										{
+											"key": "Content-Disposition",
+											"value": "{{Content-Disposition}}",
+											"type": "text"
+										},
+										{
+											"key": "success_action_status",
+											"value": "{{success_action_status}}",
+											"type": "text"
+										},
+										{
+											"key": "key",
+											"value": "{{key}}",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/Users/liangx/Downloads/BIM360-Report.pdf"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								},
+								"description": "Retrieve a bid attachment."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 3: Create a Bid with the Attachment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 3: Create a Bid with the Attachment, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"bidId\", body.id); ",
+											"",
+											"});",
+											"  "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"inviteId\": \"{{inviteId}}\",\n    \"total\": 3000,\n    \"attachments\": [ \"{{attachmentId}}\" ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bids",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bids"
+									]
+								},
+								"description": "List bids recieved by the user's company from invited bidders."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Manage Opportunity Projects and Pairs",
+					"item": [
+						{
+							"name": "Step 1: Create an Opportunity Project Pair",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Create project with Opp, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"projectId\", body.id);",
+											"});",
+											"  "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Linked Project\",\n  \"opportunityProjectPair\": {\n      \"opportunityId\": \"66042c647ebfd80057d9570a\",\n      \"includeClientFiles\": true\n  }\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 2: (Optional) Relink Project with Group Parent Opportunity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 2: (Optional) Relink Project with Group Parent Opportunity, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"pairId\", body.id);",
+											"});",
+											"  "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"opportunityId\": \"66042e68f7f0650056565479\",\n    \"projectId\": \"66042dd0af637f00494af723\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/opportunity-project-pairs",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"opportunity-project-pairs"
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Manage Bidder and Proposal Files Using Docs",
+					"item": [
+						{
+							"name": "Option 1A: Link a New BC Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Option 1A: Link a New BC Project, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"projectId\", body.id);",
+											"});",
+											"  "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"ACC Linked Project\",\n  \"currentAccLinkedHubId\": \"489c5e7a-c6c0-4212-81f3-3529a621210b\",\n  \"currentAccLinkedProjectId\": \"854c194f-05b3-4117-b926-69fa36c33c0c\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Option 1B: Link an Existing BC Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Option 1B: Link an Existing BC Project, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"projectId\", body.id);",
+											"});",
+											"  "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"currentAccLinkedHubId\": \"489c5e7a-c6c0-4212-81f3-3529a621210b\",\n  \"currentAccLinkedProjectId\": \"b67b3267-4699-4ea1-95b1-6b3327bc5d7d\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "{{projectId}}"
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 2: Share BC Files with Bidders",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 2: Share BC Files with Bidders, Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"projectId\", body.id);",
+											"});",
+											"  "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"currentAccLinkedHubId\": \"489c5e7a-c6c0-4212-81f3-3529a621210b\",\n    \"currentAccLinkedProjectId\": \"b67b3267-4699-4ea1-95b1-6b3327bc5d7d\",\n    \"currentAccDocsFolderId\":\"urn:adsk.wipprod:fs.folder:co.rjlD0BD1TNqXjc4TVlceBQ\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:projectId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":projectId"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "65e72e03682a80004bdacb2a"
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 3-1: Get Bidder Proposal Attachments Signed Url",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 3-1: Get Bidder Proposal Attachments Signed Url, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"signedUrl\", body.signedUrl);",
+											"});",
+											"  "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bids/:bidId/attachments/:attachmentId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bids",
+										":bidId",
+										"attachments",
+										":attachmentId"
+									],
+									"variable": [
+										{
+											"key": "bidId",
+											"value": "660585d09ba307004aaedcd3"
+										},
+										{
+											"key": "attachmentId",
+											"value": "660585bce74803120fcf2748"
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 3.2 : Download Attachment by Signed Url",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 3.2 : Download Attachment by Signed Url, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200); ",
+											"});",
+											"  "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{signedUrl}}",
+									"host": [
+										"{{signedUrl}}"
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 3.3 : Upload Attachment to ACC Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "Refer to Data Mangement API Tutorial https://aps.autodesk.com/en/docs/data/v2/tutorials/upload-file",
+									"protocol": "Refer to Data Mangement API Tutorial https",
+									"host": [
+										"aps",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"en",
+										"docs",
+										"data",
+										"v2",
+										"tutorials",
+										"upload-file"
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 4: Check for New Bids",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Step 4: Check for New Bids, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"bidId\", body.results[0].id);",
+											"});",
+											"  "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/bids?filter[updatedAt]=2024-03-28..",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bids"
+									],
+									"query": [
+										{
+											"key": "filter[updatedAt]",
+											"value": "2024-03-28.."
+										}
+									]
+								},
+								"description": "List the user's company's projects."
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
@@ -2861,6 +7106,98 @@
 			"key": "callbackUrl",
 			"value": "https://www.getpostman.com/oauth2/callback",
 			"type": "string"
+		},
+		{
+			"key": "attachmentId",
+			"value": ""
+		},
+		{
+			"key": "url",
+			"value": ""
+		},
+		{
+			"key": "policy",
+			"value": ""
+		},
+		{
+			"key": "signature",
+			"value": ""
+		},
+		{
+			"key": "key",
+			"value": ""
+		},
+		{
+			"key": "Content-Type",
+			"value": ""
+		},
+		{
+			"key": "AWSAccessKeyId",
+			"value": ""
+		},
+		{
+			"key": "acl",
+			"value": ""
+		},
+		{
+			"key": "Content-Disposition",
+			"value": ""
+		},
+		{
+			"key": "success_action_status",
+			"value": ""
+		},
+		{
+			"key": "projectId",
+			"value": ""
+		},
+		{
+			"key": "oppId",
+			"value": ""
+		},
+		{
+			"key": "bidFormId",
+			"value": ""
+		},
+		{
+			"key": "scopeSpecificBidFormId",
+			"value": ""
+		},
+		{
+			"key": "bidPackageId",
+			"value": ""
+		},
+		{
+			"key": "bidId",
+			"value": ""
+		},
+		{
+			"key": "inviteId",
+			"value": ""
+		},
+		{
+			"key": "certificationId",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "officeId",
+			"value": ""
+		},
+		{
+			"key": "cursorState",
+			"value": ""
+		},
+		{
+			"key": "signedUrl",
+			"value": ""
+		},
+		{
+			"key": "memberId",
+			"value": ""
 		}
 	]
 }
