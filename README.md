@@ -41,9 +41,9 @@ This folder contains a Postman Collection that includes all the endpoints of cur
 
 ### Documentation
 
-- [BuildingConnected API Field Guid](https://aps.autodesk.com/en/docs/buildingconnected/v2/developers_guide/field_guide/)
-- [BuildingConnected API API Reference](https://aps.autodesk.com/en/docs/buildingconnected/v2/reference/http/buildingconnected-projects-GET/)
-- [BuildingConnected API Tutorial](https://aps.autodesk.com/en/docs/buildingconnected/v2/tutorials/create-etl-process/)
+- [BuildingConnected API Field Guid](https://aps.autodesk.com/en/docs/buildingconnected/v2/developers_guide/field_guide/buildingconnected/)
+- [BuildingConnected API API Reference](https://aps.autodesk.com/en/docs/buildingconnected/v2/reference/http/)
+- [BuildingConnected API Tutorial](https://aps.autodesk.com/en/docs/buildingconnected/v2/tutorials/buildingconnected/)
 
 
 ### License
