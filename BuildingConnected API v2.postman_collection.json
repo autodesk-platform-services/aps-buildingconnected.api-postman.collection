@@ -1635,6 +1635,108 @@
 						"description": "Retrieve a specific invite."
 					},
 					"response": []
+				},
+				{
+					"name": "Create Invites",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bidPackageId\": \"6627775694357100425efb39\",\n  \"invitees\": [\n    {\n      \"email\": \"xiaodongdummyddtes1t@hotmail.com\"  \n      \n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://developer.api.autodesk.com/construction/buildingconnected/v2/invites:import-emails",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"construction",
+								"buildingconnected",
+								"v2",
+								"invites:import-emails"
+							]
+						},
+						"description": "Retrieve a specific invite."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Invites Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n  \"bidPackageId\": \"662782415b48f5003514d6ab\",\n  \"invitees\": [\n    {\n      \"email\": \"xiaodongdummytest@hotmail.com\" ,\n      \"placeholderCompanyName\" :\"xiaodongdummytest\"\n      \n    }\n  ]\n},\n\n    {\n  \"bidPackageId\": \"66278250aee0a80060c081f7\",\n  \"invitees\": [\n    {\n      \"email\": \"xiaodongdummytest@hotmail.com\" ,\n      \"placeholderCompanyName\" :\"xiaodongdummytest\"\n      \n    }\n  ]\n}\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://developer.api.autodesk.com/construction/buildingconnected/v2/invites:batch-import-emails",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"construction",
+								"buildingconnected",
+								"v2",
+								"invites:batch-import-emails"
+							]
+						},
+						"description": "Retrieve a specific invite."
+					},
+					"response": []
 				}
 			]
 		},
@@ -2918,7 +3020,8 @@
 									"});",
 									"  "
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -3575,72 +3678,6 @@
 					"response": []
 				},
 				{
-					"name": "List opportunities Copy",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"List opportunities, Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"    var body = JSON.parse(responseBody);",
-									"    pm.collectionVariables.set(\"oppId\", body.results[0].id);",
-									"     pm.collectionVariables.set(\"cursorState\", body.pagination.cursorState);",
-									" ",
-									"});",
-									"  "
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/opportunities?cursorState={{cursorState}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"opportunities"
-							],
-							"query": [
-								{
-									"key": "cursorState",
-									"value": "{{cursorState}}",
-									"description": "An opaque cursor token that identifies where the next page of paginated results should start. It's returned in\neach paginated response so that it can be supplied in the next request to continue paginated results. If a\npaginated response contains no ``cursorState`` value, then there are no further pages to return.\n\nOmit this field to initiate a paginated request or to restart pagination."
-								},
-								{
-									"key": "limit",
-									"value": "",
-									"description": "Determines the maximum number of objects that MAY be returned. A query MAY return fewer than the value of limit due to filtering or other reasons.",
-									"disabled": true
-								},
-								{
-									"key": "filter[clientCompanyId]",
-									"value": "",
-									"description": "Filter to objects matching this client company ID.",
-									"disabled": true
-								},
-								{
-									"key": "filter[updatedAt]",
-									"value": "",
-									"description": "A string that specifies a date and time or a date and time range at which all returned objects mast have been\nupdated. A single date and time takes this format: ``YYYY-MM-DDThh:mm:ss.SSSZ``, A date and time range takes this\nformat: ``YYYY-MM-DDThh:mm:ss.SSSZ..YYYY-MM-DDThh:mm:ss.SSSZ``. Range queries can be closed or open in either\ndirection: ``YYYY-MM-DDThh:mm:ss.SSSZ..`` or ``..YYYY-MM-DDThh:mm:ss.SSSZ``.\n",
-									"disabled": true
-								}
-							]
-						},
-						"description": "List the user's company's opportunities."
-					},
-					"response": []
-				},
-				{
 					"name": "Create opportunities",
 					"event": [
 						{
@@ -3697,12 +3734,12 @@
 							"script": {
 								"exec": [
 									"pm.test(\"List one opportunity, Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"     ",
+									"    pm.response.to.have.status(200); ",
 									"});",
 									"  "
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -3837,6 +3874,110 @@
 							]
 						},
 						"description": "List the user's company's opportunities."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve one opportunity comments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"List one opportunity comments, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200); ",
+									"     var body = JSON.parse(responseBody);",
+									"    pm.collectionVariables.set(\"commentId\", body.results[0].id);",
+									"});",
+									"",
+									"",
+									"  "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/opportunities/:opportunityId/comments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"opportunities",
+								":opportunityId",
+								"comments"
+							],
+							"variable": [
+								{
+									"key": "opportunityId",
+									"value": "{{oppId}}",
+									"description": "(Required) The ID of the opportunity."
+								}
+							]
+						},
+						"description": "Retrieve a specific opportunity."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve one comment of opportunity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"one comment of opportunity, Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"     ",
+									"});",
+									"  "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/opportunities/:opportunityId/comments/:commentId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"opportunities",
+								":opportunityId",
+								"comments",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "opportunityId",
+									"value": "{{oppId}}",
+									"description": "(Required) The ID of the opportunity."
+								},
+								{
+									"key": "commentId",
+									"value": "{{commentID}}"
+								}
+							]
+						},
+						"description": "Retrieve a specific opportunity."
 					},
 					"response": []
 				}
@@ -7012,6 +7153,167 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Webhook: Subscribe Events of Opportunity",
+					"item": [
+						{
+							"name": "Step1: Find Scope ID: company id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Retrieve my user information, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200); ",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"companyId\", body.id);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users/me",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"me"
+									]
+								},
+								"description": "Fetches the user object for requesting user. The Autodesk ID provided in the auothorization is mapped to a specific user in BuildingConnected. Users can only belong to a single company in BuildingConnected, and Autodesk ID can only map to one specific BuildingConnected user ID."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 2 : Choose event type to register the Webhook on",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "[NO Script] Step 2 : Choose event type to register the Webhook on",
+									"host": [
+										"[NO Script] Step 2 "
+									],
+									"port": " Choose event type to register the Webhook on"
+								},
+								"description": "Fetches the user object for requesting user. The Autodesk ID provided in the auothorization is mapped to a specific user in BuildingConnected. Users can only belong to a single company in BuildingConnected, and Autodesk ID can only map to one specific BuildingConnected user ID."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 3 : Preparing to handle Callbacks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "[NO Script] Step 3 : Preparing to handle Callbacks",
+									"host": [
+										"[NO Script] Step 3 "
+									],
+									"port": " Preparing to handle Callbacks"
+								},
+								"description": "Fetches the user object for requesting user. The Autodesk ID provided in the auothorization is mapped to a specific user in BuildingConnected. Users can only belong to a single company in BuildingConnected, and Autodesk ID can only map to one specific BuildingConnected user ID."
+							},
+							"response": []
+						},
+						{
+							"name": "Step4: Subscribe Events of Opportunity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Retrieve my user information, Status code is 200\", function () {",
+											"    pm.response.to.have.status(200); ",
+											"    var body = JSON.parse(responseBody);",
+											"    pm.collectionVariables.set(\"companyId\", body.id);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"callbackUrl\": \"http://bf067e05.ngrok.io/callback\",\n    \"scope\": {\n         \"companyId\": \"{{companyId}}\"\n    },\n    \"hookAttribute\": {\n        \"myData\": \"myDataValue\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://developer.api.autodesk.com/webhooks/v1/systems/autodesk.construction.bc/events/opportunity.comment.updated/hooks",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"webhooks",
+										"v1",
+										"systems",
+										"autodesk.construction.bc",
+										"events",
+										"opportunity.comment.updated",
+										"hooks"
+									]
+								},
+								"description": "Fetches the user object for requesting user. The Autodesk ID provided in the auothorization is mapped to a specific user in BuildingConnected. Users can only belong to a single company in BuildingConnected, and Autodesk ID can only map to one specific BuildingConnected user ID."
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
@@ -7197,6 +7499,14 @@
 		},
 		{
 			"key": "memberId",
+			"value": ""
+		},
+		{
+			"key": "commentId",
+			"value": ""
+		},
+		{
+			"key": "companyId",
 			"value": ""
 		}
 	]
