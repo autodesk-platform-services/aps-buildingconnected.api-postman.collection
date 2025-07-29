@@ -16,16 +16,19 @@ This folder contains a Postman Collection that includes all the endpoints of cur
 
 ### Setup Postman environment
 
+- **APS Account**: Learn how to create a APS Account and create an app by [this tutorial](https://get-started.aps.autodesk.com/#create-an-account ). Ensure to select **BuildingConnected API** in the list of **API Access**. Add one _callback url_ as 
+
+    ```https://www.getpostman.com/oauth2/callback```
+
+Make a note with APS _client id_, _client secret_ and  _callback url_.
+
 - Import Postman collection file. It contains the endpoints test, predefined **variables** of collection enviroment and predefined **Authorization**.  
 
-- Input your information in  **variables** tab 
-
+- Input client id, client secret of your APS app in  **variables** tab 
 
     <p align="center"><img src="./img/variables.png" width="600" ></p>  
 
-- ensure the callback url of your APS application is 
-```https://www.getpostman.com/oauth2/callback```
-
+   the callback url is consistent to that is configured in your APS application  
 
 ### API Test
 
